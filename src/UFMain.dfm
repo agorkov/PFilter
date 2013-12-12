@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 0
   Caption = #1043#1086#1088#1100#1082#1086#1074' '#1040'. - '#1060#1080#1083#1100#1090#1088#1072#1094#1080#1103
   ClientHeight = 300
-  ClientWidth = 635
+  ClientWidth = 556
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -37,6 +37,28 @@ object Form1: TForm1
     000000000000000000000000000000000000000000000000000000000000}
   OldCreateOrder = False
   Position = poScreenCenter
+  OnActivate = FormActivate
   PixelsPerInch = 96
   TextHeight = 13
+  object IIn: TImage
+    Left = 8
+    Top = 8
+    Width = 265
+    Height = 265
+    Center = True
+    Proportional = True
+    Stretch = True
+    OnDblClick = IInDblClick
+  end
+  object IOut: TImage
+    Left = 279
+    Top = 8
+    Width = 265
+    Height = 265
+  end
+  object OPD1: TOpenPictureDialog
+    Filter = 'Bitmaps (*.bmp)|*.bmp'
+    Left = 16
+    Top = 16
+  end
 end

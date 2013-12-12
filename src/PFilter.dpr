@@ -2,7 +2,9 @@ program PFilter;
 
 uses
   Vcl.Forms,
-  UFMain in 'UFMain.pas' {Form1};
+  UFMain in 'UFMain.pas' {Form1},
+  UImages in 'D:\ImgSharedUnits\src\UImages.pas',
+  UPixelConvert in 'D:\ImgSharedUnits\src\UPixelConvert.pas';
 
 {$R *.res}
 
