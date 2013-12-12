@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = #1043#1086#1088#1100#1082#1086#1074' '#1040'. - '#1060#1080#1083#1100#1090#1088#1072#1094#1080#1103
-  ClientHeight = 300
+  ClientHeight = 313
   ClientWidth = 556
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -55,6 +55,20 @@ object Form1: TForm1
     Top = 8
     Width = 265
     Height = 265
+    Center = True
+    ParentShowHint = False
+    Proportional = True
+    ShowHint = False
+    Stretch = True
+  end
+  object BFilter: TButton
+    Left = 8
+    Top = 279
+    Width = 540
+    Height = 25
+    Caption = 'BFilter'
+    TabOrder = 0
+    OnClick = BFilterClick
   end
   object OPD1: TOpenPictureDialog
     Filter = 'Bitmaps (*.bmp)|*.bmp'
