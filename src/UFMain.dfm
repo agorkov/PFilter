@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = #1043#1086#1088#1100#1082#1086#1074' '#1040'. - '#1060#1080#1083#1100#1090#1088#1072#1094#1080#1103
-  ClientHeight = 313
-  ClientWidth = 556
+  ClientHeight = 388
+  ClientWidth = 969
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -43,32 +43,95 @@ object Form1: TForm1
   object IIn: TImage
     Left = 8
     Top = 8
-    Width = 265
-    Height = 265
+    Width = 345
+    Height = 345
     Center = True
     Proportional = True
     Stretch = True
     OnDblClick = IInDblClick
   end
   object IOut: TImage
-    Left = 279
+    Left = 615
     Top = 8
-    Width = 265
-    Height = 265
+    Width = 345
+    Height = 345
     Center = True
     ParentShowHint = False
     Proportional = True
     ShowHint = False
     Stretch = True
+    OnDblClick = IOutDblClick
   end
   object BFilter: TButton
     Left = 8
-    Top = 279
-    Width = 540
+    Top = 359
+    Width = 952
     Height = 25
-    Caption = 'BFilter'
+    Caption = #1042#1099#1087#1086#1083#1085#1080#1090#1100' '#1092#1080#1083#1100#1090#1088#1072#1094#1080#1102
     TabOrder = 0
     OnClick = BFilterClick
+  end
+  object RGFilterSelect: TRadioGroup
+    Left = 359
+    Top = 88
+    Width = 250
+    Height = 265
+    Caption = #1042#1099#1073#1086#1088' '#1092#1080#1083#1100#1090#1088#1072':'
+    ItemIndex = 0
+    Items.Strings = (
+      #1059#1089#1088#1077#1076#1085#1103#1102#1097#1080#1081' ('#1089#1088#1077#1076#1085#1077#1077' '#1072#1088#1080#1092#1084#1077#1090#1080#1095#1077#1089#1082#1086#1077')'
+      #1059#1089#1088#1077#1076#1085#1103#1102#1097#1080#1081' ('#1089#1088#1077#1076#1085#1077#1077' '#1075#1077#1086#1084#1077#1090#1088#1080#1095#1077#1089#1082#1086#1077')')
+    TabOrder = 1
+  end
+  object GBFilterParams: TGroupBox
+    Left = 359
+    Top = 8
+    Width = 250
+    Height = 74
+    Caption = #1055#1072#1088#1072#1084#1077#1090#1088#1099' '#1092#1080#1083#1100#1090#1088#1072
+    TabOrder = 2
+    object LEFilterN: TLabeledEdit
+      Left = 51
+      Top = 40
+      Width = 30
+      Height = 21
+      EditLabel.Width = 35
+      EditLabel.Height = 13
+      EditLabel.Caption = #1057#1090#1088#1086#1082':'
+      ReadOnly = True
+      TabOrder = 0
+      Text = '1'
+    end
+    object UDFilterN: TUpDown
+      Left = 81
+      Top = 40
+      Width = 16
+      Height = 21
+      Associate = LEFilterN
+      Position = 1
+      TabOrder = 1
+    end
+    object UDFilterM: TUpDown
+      Left = 181
+      Top = 40
+      Width = 16
+      Height = 21
+      Associate = LEFilterM
+      Position = 1
+      TabOrder = 2
+    end
+    object LEFilterM: TLabeledEdit
+      Left = 151
+      Top = 40
+      Width = 30
+      Height = 21
+      EditLabel.Width = 53
+      EditLabel.Height = 13
+      EditLabel.Caption = #1057#1090#1086#1083#1073#1094#1086#1074':'
+      ReadOnly = True
+      TabOrder = 3
+      Text = '1'
+    end
   end
   object OPD1: TOpenPictureDialog
     Filter = 'Bitmaps (*.bmp)|*.bmp'
