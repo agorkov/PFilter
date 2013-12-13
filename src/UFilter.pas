@@ -6,6 +6,10 @@ uses
   UImages;
 procedure AVG(var GSI: TGreyscaleImage; h, w: word);
 procedure GeometricMean(var GSI: TGreyscaleImage; h, w: word);
+procedure Median(var GSI: TGreyscaleImage; h, w: word);
+procedure Max(var GSI: TGreyscaleImage; h, w: word);
+procedure Min(var GSI: TGreyscaleImage; h, w: word);
+procedure MiddlePoint(var GSI: TGreyscaleImage; h, w: word);
 
 implementation
 
@@ -72,6 +76,163 @@ begin
       p := power(p, 1 / ((2 * h + 1) * (2 * w + 1)));
       GSIR.i[i, j] := round(p);
     end;
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+      GSI.i[i, j] := GSIR.i[i, j];
+end;
+
+procedure Median(var GSI: TGreyscaleImage; h, w: word);
+var
+  i, j: word;
+  fi, fj: integer;
+  GSIR: TGreyscaleImage;
+  k, l: word;
+  val: byte;
+  tmp: array of byte;
+begin
+  UImages.InitGSImg(GSIR, GSI.N, GSI.M);
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+      GSIR.i[i, j] := GSI.i[i, j];
+
+  SetLength(tmp, (2 * h + 1) * (2 * w + 1) + 1);
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+    begin
+      k := 0;
+      for fi := -h to h do
+        for fj := -w to w do
+        begin
+          k := k + 1;
+          tmp[k] := GetPixelValue(GSI, i + fi, j + fj);
+        end;
+      for k := 1 to (2 * h + 1) * (2 * w + 1) - 1 do
+        for l := k + 1 to (2 * h + 1) * (2 * w + 1) do
+          if tmp[k] > tmp[l] then
+          begin
+            val := tmp[k];
+            tmp[k] := tmp[l];
+            tmp[l] := val;
+          end;
+      GSIR.i[i, j] := tmp[((2 * h + 1) * (2 * w + 1) div 2) + 1];
+    end;
+  tmp := nil;
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+      GSI.i[i, j] := GSIR.i[i, j];
+end;
+
+procedure Max(var GSI: TGreyscaleImage; h, w: word);
+var
+  i, j: word;
+  fi, fj: integer;
+  GSIR: TGreyscaleImage;
+  k: word;
+  Max: byte;
+  tmp: array of byte;
+begin
+  UImages.InitGSImg(GSIR, GSI.N, GSI.M);
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+      GSIR.i[i, j] := GSI.i[i, j];
+
+  SetLength(tmp, (2 * h + 1) * (2 * w + 1) + 1);
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+    begin
+      k := 0;
+      for fi := -h to h do
+        for fj := -w to w do
+        begin
+          k := k + 1;
+          tmp[k] := GetPixelValue(GSI, i + fi, j + fj);
+        end;
+      Max := tmp[1];
+      for k := 1 to (2 * h + 1) * (2 * w + 1) - 1 do
+        if tmp[k] > Max then
+          Max := tmp[k];
+      GSIR.i[i, j] := Max;
+    end;
+  tmp := nil;
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+      GSI.i[i, j] := GSIR.i[i, j];
+end;
+
+procedure Min(var GSI: TGreyscaleImage; h, w: word);
+var
+  i, j: word;
+  fi, fj: integer;
+  GSIR: TGreyscaleImage;
+  k: word;
+  Min: byte;
+  tmp: array of byte;
+begin
+  UImages.InitGSImg(GSIR, GSI.N, GSI.M);
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+      GSIR.i[i, j] := GSI.i[i, j];
+
+  SetLength(tmp, (2 * h + 1) * (2 * w + 1) + 1);
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+    begin
+      k := 0;
+      for fi := -h to h do
+        for fj := -w to w do
+        begin
+          k := k + 1;
+          tmp[k] := GetPixelValue(GSI, i + fi, j + fj);
+        end;
+      Min := tmp[1];
+      for k := 1 to (2 * h + 1) * (2 * w + 1) - 1 do
+        if tmp[k] < Min then
+          Min := tmp[k];
+      GSIR.i[i, j] := Min;
+    end;
+  tmp := nil;
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+      GSI.i[i, j] := GSIR.i[i, j];
+end;
+
+procedure MiddlePoint(var GSI: TGreyscaleImage; h, w: word);
+var
+  i, j: word;
+  fi, fj: integer;
+  GSIR: TGreyscaleImage;
+  k: word;
+  Min, Max: byte;
+  tmp: array of byte;
+begin
+  UImages.InitGSImg(GSIR, GSI.N, GSI.M);
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+      GSIR.i[i, j] := GSI.i[i, j];
+
+  SetLength(tmp, (2 * h + 1) * (2 * w + 1) + 1);
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+    begin
+      k := 0;
+      for fi := -h to h do
+        for fj := -w to w do
+        begin
+          k := k + 1;
+          tmp[k] := GetPixelValue(GSI, i + fi, j + fj);
+        end;
+      Min := tmp[1];
+      Max := tmp[1];
+      for k := 1 to (2 * h + 1) * (2 * w + 1) - 1 do
+      begin
+        if tmp[k] < Min then
+          Min := tmp[k];
+        if tmp[k] > Max then
+          Max := tmp[k];
+      end;
+      GSIR.i[i, j] := round((Max + Min) / 2);
+    end;
+  tmp := nil;
   for i := 1 to GSI.N do
     for j := 1 to GSI.M do
       GSI.i[i, j] := GSIR.i[i, j];
