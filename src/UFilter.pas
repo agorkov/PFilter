@@ -55,7 +55,7 @@ procedure GeometricMean(var GSI: TGreyscaleImage; h, w: word);
 var
   i, j: word;
   fi, fj: integer;
-  p: real;
+  p: double;
   GSIR: TGreyscaleImage;
 begin
   UImages.InitGSImg(GSIR, GSI.N, GSI.M);
