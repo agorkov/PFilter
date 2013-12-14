@@ -1,7 +1,11 @@
 program PFilter;
 
 uses
-  Vcl.Forms, UFMain in 'UFMain.pas' {Form1} , UImages in 'D:\ImgSharedUnits\src\UImages.pas', UPixelConvert in 'D:\ImgSharedUnits\src\UPixelConvert.pas', UFilter in 'UFilter.pas';
+  Vcl.Forms,
+  UFMain in 'UFMain.pas' {Form1},
+  UFilter in 'UFilter.pas',
+  UImages in '..\..\ImgSharedUnits\src\UImages.pas',
+  UPixelConvert in '..\..\ImgSharedUnits\src\UPixelConvert.pas';
 
 {$R *.res}
 
