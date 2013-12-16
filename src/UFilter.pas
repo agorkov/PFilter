@@ -4,12 +4,13 @@ interface
 
 uses
   UImages;
-procedure AVG(var GSI: TGreyscaleImage; h, w: word);
-procedure GeometricMean(var GSI: TGreyscaleImage; h, w: word);
-procedure Median(var GSI: TGreyscaleImage; h, w: word);
-procedure Max(var GSI: TGreyscaleImage; h, w: word);
-procedure Min(var GSI: TGreyscaleImage; h, w: word);
-procedure MiddlePoint(var GSI: TGreyscaleImage; h, w: word);
+procedure AVGFilter(var GSI: TGreyscaleImage; h, w: word);
+procedure WeightedAVGFilter(var GSI: TGreyscaleImage; h, w: word);
+procedure GeometricMeanFilter(var GSI: TGreyscaleImage; h, w: word);
+procedure MedianFilter(var GSI: TGreyscaleImage; h, w: word);
+procedure MaxFilter(var GSI: TGreyscaleImage; h, w: word);
+procedure MinFilter(var GSI: TGreyscaleImage; h, w: word);
+procedure MiddlePointFilter(var GSI: TGreyscaleImage; h, w: word);
 
 implementation
 
@@ -29,7 +30,7 @@ begin
   GetPixelValue := GSI.i[i, j];
 end;
 
-procedure AVG(var GSI: TGreyscaleImage; h, w: word);
+procedure AVGFilter(var GSI: TGreyscaleImage; h, w: word);
 var
   i, j: word;
   fi, fj: integer;
@@ -55,7 +56,50 @@ begin
       GSI.i[i, j] := GSIR.i[i, j];
 end;
 
-procedure GeometricMean(var GSI: TGreyscaleImage; h, w: word);
+procedure WeightedAVGFilter(var GSI: TGreyscaleImage; h, w: word);
+var
+  i, j: integer;
+  fi, fj: integer;
+  sum: double;
+  GSIR: TGreyscaleImage;
+  Mask: array of array of double;
+  maxDist, maskWeigth: double;
+begin
+  UImages.InitGSImg(GSIR, GSI.N, GSI.M);
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+      GSIR.i[i, j] := GSI.i[i, j];
+
+  SetLength(Mask, 2 * h + 2);
+  for i := 1 to 2 * h + 2 do
+    SetLength(Mask[i], 2 * w + 2);
+  for i := -h to h do
+    for j := -w to w do
+      Mask[i + h + 1, j + w + 1] := sqrt(sqr(i) + sqr(j));
+  maxDist := Mask[1, 1];
+  maskWeigth := 0;
+  for i := 1 to 2 * h + 1 do
+    for j := 1 to 2 * w + 1 do
+    begin
+      Mask[i, j] := (maxDist - Mask[i, j]) / maxDist;
+      maskWeigth := maskWeigth + Mask[i, j];
+    end;
+
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+    begin
+      sum := 0;
+      for fi := -h to h do
+        for fj := -w to w do
+          sum := sum + Mask[fi + h + 1, fj + w + 1] * GetPixelValue(GSI, i + fi, j + fj);
+      GSIR.i[i, j] := round(sum / maskWeigth);
+    end;
+  for i := 1 to GSI.N do
+    for j := 1 to GSI.M do
+      GSI.i[i, j] := GSIR.i[i, j];
+end;
+
+procedure GeometricMeanFilter(var GSI: TGreyscaleImage; h, w: word);
 var
   i, j: word;
   fi, fj: integer;
@@ -81,7 +125,7 @@ begin
       GSI.i[i, j] := GSIR.i[i, j];
 end;
 
-procedure Median(var GSI: TGreyscaleImage; h, w: word);
+procedure MedianFilter(var GSI: TGreyscaleImage; h, w: word);
 var
   i, j: word;
   fi, fj: integer;
@@ -122,7 +166,7 @@ begin
       GSI.i[i, j] := GSIR.i[i, j];
 end;
 
-procedure Max(var GSI: TGreyscaleImage; h, w: word);
+procedure MaxFilter(var GSI: TGreyscaleImage; h, w: word);
 var
   i, j: word;
   fi, fj: integer;
@@ -159,7 +203,7 @@ begin
       GSI.i[i, j] := GSIR.i[i, j];
 end;
 
-procedure Min(var GSI: TGreyscaleImage; h, w: word);
+procedure MinFilter(var GSI: TGreyscaleImage; h, w: word);
 var
   i, j: word;
   fi, fj: integer;
@@ -196,7 +240,7 @@ begin
       GSI.i[i, j] := GSIR.i[i, j];
 end;
 
-procedure MiddlePoint(var GSI: TGreyscaleImage; h, w: word);
+procedure MiddlePointFilter(var GSI: TGreyscaleImage; h, w: word);
 var
   i, j: word;
   fi, fj: integer;

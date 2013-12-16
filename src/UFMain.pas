@@ -51,12 +51,13 @@ begin
   FilterN := StrToInt(LEFilterN.Text);
   FilterM := StrToInt(LEFilterM.Text);
   case RGFilterSelect.ItemIndex of
-  0: UFilter.AVG(GSI, FilterN, FilterM);
-  1: UFilter.GeometricMean(GSI, FilterN, FilterM);
-  2: UFilter.Median(GSI, FilterN, FilterM);
-  3: UFilter.Max(GSI, FilterN, FilterM);
-  4: UFilter.Min(GSI, FilterN, FilterM);
-  5: UFilter.MiddlePoint(GSI, FilterN, FilterM);
+  0: UFilter.AVGFilter(GSI, FilterN, FilterM);
+  1: UFilter.WeightedAVGFilter(GSI, FilterN, FilterM);
+  2: UFilter.GeometricMeanFilter(GSI, FilterN, FilterM);
+  3: UFilter.MedianFilter(GSI, FilterN, FilterM);
+  4: UFilter.MaxFilter(GSI, FilterN, FilterM);
+  5: UFilter.MinFilter(GSI, FilterN, FilterM);
+  6: UFilter.MiddlePointFilter(GSI, FilterN, FilterM);
   end;
 
   BM := UImages.SaveGreyscaleImgToBitMap(GSI);
