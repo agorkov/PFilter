@@ -17,6 +17,7 @@ type
     UDFilterN: TUpDown;
     UDFilterM: TUpDown;
     LEFilterM: TLabeledEdit;
+    Label1: TLabel;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -42,6 +43,7 @@ var
   GSI: UImages.TGreyscaleImage;
   BM: TBitmap;
   FilterN, FilterM: byte;
+  T: TDateTime;
 begin
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
@@ -50,6 +52,7 @@ begin
 
   FilterN := StrToInt(LEFilterN.Text);
   FilterM := StrToInt(LEFilterM.Text);
+  T := Now;
   case RGFilterSelect.ItemIndex of
   0: UFilter.AVGFilter(GSI, FilterN, FilterM);
   1: UFilter.WeightedAVGFilter(GSI, FilterN, FilterM);
@@ -58,8 +61,9 @@ begin
   4: UFilter.MaxFilter(GSI, FilterN, FilterM);
   5: UFilter.MinFilter(GSI, FilterN, FilterM);
   6: UFilter.MiddlePointFilter(GSI, FilterN, FilterM);
+  7: UFilter.TruncatedMeanFilter(GSI, FilterN, FilterM, 2);
   end;
-
+  Label1.Caption := TimeToStr(Now - T);
   BM := UImages.SaveGreyscaleImgToBitMap(GSI);
   IOut.Picture.Assign(BM);
   BM.Free;
