@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtDlgs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls;
 
 type
-  TForm1 = class(TForm)
+  TFMain = class(TForm)
     IIn: TImage;
     IOut: TImage;
     OPD1: TOpenPictureDialog;
@@ -17,11 +17,15 @@ type
     UDFilterN: TUpDown;
     UDFilterM: TUpDown;
     LEFilterM: TLabeledEdit;
-    Ltime: TLabel;
+    LTime: TLabel;
+    LEFilterd: TLabeledEdit;
+    UDFilterD: TUpDown;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
     procedure IOutDblClick(Sender: TObject);
+    procedure LEFilterNChange(Sender: TObject);
+    procedure LEFilterMChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -29,7 +33,7 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FMain: TFMain;
 
 implementation
 
@@ -38,44 +42,83 @@ implementation
 uses
   UPixelConvert, UImages, UFilter;
 
-procedure TForm1.BFilterClick(Sender: TObject);
+procedure TFMain.BFilterClick(Sender: TObject);
 var
   GSI: UImages.TGreyscaleImage;
   BM: TBitmap;
   FilterN, FilterM: byte;
   T: TDateTime;
+  OutFileName: string;
 begin
+  LTime.Caption := 'Выполняется фильтрация...';
+  FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
   UImages.LoadGSIFromBitMap(GSI, BM);
   BM.Free;
-
   FilterN := StrToInt(LEFilterN.Text);
   FilterM := StrToInt(LEFilterM.Text);
   T := Now;
+  OutFileName := ExtractFileName(OPD1.FileName);
+  Delete(OutFileName, pos(ExtractFileExt(OutFileName), OutFileName), length(OutFileName));
+  OutFileName := OutFileName + '_' + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_';
   case RGFilterSelect.ItemIndex of
-  0: UFilter.AVGFilter(GSI, FilterN, FilterM);
-  1: UFilter.WeightedAVGFilter(GSI, FilterN, FilterM);
-  2: UFilter.GeometricMeanFilter(GSI, FilterN, FilterM);
-  3: UFilter.MedianFilter(GSI, FilterN, FilterM);
-  4: UFilter.MaxFilter(GSI, FilterN, FilterM);
-  5: UFilter.MinFilter(GSI, FilterN, FilterM);
-  6: UFilter.MiddlePointFilter(GSI, FilterN, FilterM);
-  7: UFilter.TruncatedMeanFilter(GSI, FilterN, FilterM, (FilterN * 2 + 1) * (FilterM * 2 + 1) div 3);
+  0:
+    begin
+      UFilter.AVGFilter(GSI, FilterN, FilterM);
+      OutFileName := OutFileName + 'AVG';
+    end;
+  1:
+    begin
+      UFilter.WeightedAVGFilter(GSI, FilterN, FilterM);
+      OutFileName := OutFileName + 'WeightedAVG';
+    end;
+  2:
+    begin
+      UFilter.GeometricMeanFilter(GSI, FilterN, FilterM);
+      OutFileName := OutFileName + 'GeometricMean';
+    end;
+  3:
+    begin
+      UFilter.MedianFilter(GSI, FilterN, FilterM);
+      OutFileName := OutFileName + 'Median';
+    end;
+  4:
+    begin
+      UFilter.MaxFilter(GSI, FilterN, FilterM);
+      OutFileName := OutFileName + 'Max';
+    end;
+  5:
+    begin
+      UFilter.MinFilter(GSI, FilterN, FilterM);
+      OutFileName := OutFileName + 'Min';
+    end;
+  6:
+    begin
+      UFilter.MiddlePointFilter(GSI, FilterN, FilterM);
+      OutFileName := OutFileName + 'MiddlePoint';
+    end;
+  7:
+    begin
+      UFilter.TruncatedAVGFilter(GSI, FilterN, FilterM, StrToInt(LEFilterd.Text));
+      OutFileName := OutFileName + 'TrancetedAVG';
+    end;
   end;
-  Label1.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
+  OutFileName := OutFileName + '.bmp';
   BM := UImages.SaveGreyscaleImgToBitMap(GSI);
   IOut.Picture.Assign(BM);
+  BM.SaveToFile(OutFileName);
   BM.Free;
+  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
 end;
 
-procedure TForm1.FormActivate(Sender: TObject);
+procedure TFMain.FormActivate(Sender: TObject);
 begin
   IIn.Canvas.Rectangle(1, 1, IIn.Width, IIn.Height);
   IOut.Canvas.Rectangle(1, 1, IOut.Width, IOut.Height);
 end;
 
-procedure TForm1.IInDblClick(Sender: TObject);
+procedure TFMain.IInDblClick(Sender: TObject);
 var
   row, col: word;
   BM: TBitmap;
@@ -101,9 +144,33 @@ begin
   end;
 end;
 
-procedure TForm1.IOutDblClick(Sender: TObject);
+procedure TFMain.IOutDblClick(Sender: TObject);
 begin
-  IOut.Picture.SaveToFile('Result.bmp');
+  IIn.Canvas.CopyRect(Rect(0, 0, IIn.Width, IIn.Height), IOut.Canvas, Rect(0, 0, IOut.Width, IOut.Height));
+end;
+
+procedure TFMain.LEFilterMChange(Sender: TObject);
+var
+  FilterN, FilterM: word;
+begin
+  FilterN := StrToInt(LEFilterN.Text);
+  FilterM := StrToInt(LEFilterM.Text);
+  FilterN := 2 * FilterN + 1;
+  FilterM := 2 * FilterM + 1;
+  LEFilterd.Text := inttostr(FilterN * FilterM div 3);
+  UDFilterD.Max := (FilterN * FilterM - 1) div 2;
+end;
+
+procedure TFMain.LEFilterNChange(Sender: TObject);
+var
+  FilterN, FilterM: word;
+begin
+  FilterN := StrToInt(LEFilterN.Text);
+  FilterM := StrToInt(LEFilterM.Text);
+  FilterN := 2 * FilterN + 1;
+  FilterM := 2 * FilterM + 1;
+  LEFilterd.Text := inttostr(FilterN * FilterM div 3);
+  UDFilterD.Max := (FilterN * FilterM - 1) div 2;
 end;
 
 end.

@@ -1,4 +1,4 @@
-object Form1: TForm1
+object FMain: TFMain
   Left = 0
   Top = 0
   Caption = #1043#1086#1088#1100#1082#1086#1074' '#1040'. - '#1060#1080#1083#1100#1090#1088#1072#1094#1080#1103
@@ -62,7 +62,7 @@ object Form1: TForm1
     Stretch = True
     OnDblClick = IOutDblClick
   end
-  object Ltime: TLabel
+  object LTime: TLabel
     Left = 8
     Top = 387
     Width = 102
@@ -104,7 +104,7 @@ object Form1: TForm1
     Caption = #1040#1087#1077#1088#1090#1091#1088#1072' '#1092#1080#1083#1100#1090#1088#1072
     TabOrder = 2
     object LEFilterN: TLabeledEdit
-      Left = 51
+      Left = 11
       Top = 40
       Width = 30
       Height = 21
@@ -113,9 +113,10 @@ object Form1: TForm1
       EditLabel.Caption = #1057#1090#1088#1086#1082':'
       TabOrder = 0
       Text = '1'
+      OnChange = LEFilterNChange
     end
     object UDFilterN: TUpDown
-      Left = 81
+      Left = 41
       Top = 40
       Width = 16
       Height = 21
@@ -124,7 +125,7 @@ object Form1: TForm1
       TabOrder = 1
     end
     object UDFilterM: TUpDown
-      Left = 181
+      Left = 133
       Top = 40
       Width = 16
       Height = 21
@@ -133,7 +134,7 @@ object Form1: TForm1
       TabOrder = 2
     end
     object LEFilterM: TLabeledEdit
-      Left = 151
+      Left = 103
       Top = 40
       Width = 30
       Height = 21
@@ -142,6 +143,27 @@ object Form1: TForm1
       EditLabel.Caption = #1057#1090#1086#1083#1073#1094#1086#1074':'
       TabOrder = 3
       Text = '1'
+      OnChange = LEFilterMChange
+    end
+    object LEFilterd: TLabeledEdit
+      Left = 195
+      Top = 40
+      Width = 30
+      Height = 21
+      EditLabel.Width = 53
+      EditLabel.Height = 13
+      EditLabel.Caption = #1054#1090#1089#1077#1082#1072#1090#1100':'
+      TabOrder = 4
+      Text = '3'
+    end
+    object UDFilterD: TUpDown
+      Left = 225
+      Top = 40
+      Width = 16
+      Height = 21
+      Associate = LEFilterd
+      Position = 3
+      TabOrder = 5
     end
   end
   object OPD1: TOpenPictureDialog
