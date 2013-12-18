@@ -103,6 +103,11 @@ begin
       UFilter.TruncatedAVGFilter(GSI, FilterN, FilterM, StrToInt(LEFilterd.Text));
       OutFileName := OutFileName + 'TrancetedAVG';
     end;
+  8:
+    begin
+      UFilter.LaplaceFilter(GSI);
+      OutFileName := OutFileName + 'Laplacian';
+    end;
   end;
   OutFileName := OutFileName + '.bmp';
   BM := UImages.SaveGreyscaleImgToBitMap(GSI);
@@ -145,8 +150,13 @@ begin
 end;
 
 procedure TFMain.IOutDblClick(Sender: TObject);
+var
+  BM: TBitmap;
 begin
-  IIn.Canvas.CopyRect(Rect(0, 0, IIn.Width, IIn.Height), IOut.Canvas, Rect(0, 0, IOut.Width, IOut.Height));
+  BM := TBitmap.Create;
+  BM.Assign(IOut.Picture);
+  IIn.Picture.Assign(BM);
+  BM.Free;
 end;
 
 procedure TFMain.LEFilterMChange(Sender: TObject);
