@@ -17,7 +17,7 @@ type
     UDFilterN: TUpDown;
     UDFilterM: TUpDown;
     LEFilterM: TLabeledEdit;
-    Label1: TLabel;
+    Ltime: TLabel;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -61,9 +61,9 @@ begin
   4: UFilter.MaxFilter(GSI, FilterN, FilterM);
   5: UFilter.MinFilter(GSI, FilterN, FilterM);
   6: UFilter.MiddlePointFilter(GSI, FilterN, FilterM);
-  7: UFilter.TruncatedMeanFilter(GSI, FilterN, FilterM, 2);
+  7: UFilter.TruncatedMeanFilter(GSI, FilterN, FilterM, (FilterN * 2 + 1) * (FilterM * 2 + 1) div 3);
   end;
-  Label1.Caption := TimeToStr(Now - T);
+  Label1.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
   BM := UImages.SaveGreyscaleImgToBitMap(GSI);
   IOut.Picture.Assign(BM);
   BM.Free;

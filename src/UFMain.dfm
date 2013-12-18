@@ -62,12 +62,12 @@ object Form1: TForm1
     Stretch = True
     OnDblClick = IOutDblClick
   end
-  object Label1: TLabel
+  object Ltime: TLabel
     Left = 8
     Top = 387
-    Width = 31
+    Width = 102
     Height = 13
-    Caption = 'Label1'
+    Caption = #1042#1088#1077#1084#1103' '#1092#1080#1083#1100#1090#1088#1072#1094#1080#1080': '
   end
   object BFilter: TButton
     Left = 8
