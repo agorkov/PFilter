@@ -107,10 +107,10 @@ begin
     end;
   8:
     begin
-      UFilter.LaplaceFilter(GSI, CBAddToOriginal.Checked);
+      UFilter.PrevittFilter(GSI, CBAddToOriginal.Checked);
       if CBAddToOriginal.Checked then
         OutFileName := OutFileName + '+';
-      OutFileName := OutFileName + 'Laplacian';
+      OutFileName := OutFileName + 'Previtt';
     end;
   9:
     begin
@@ -121,10 +121,17 @@ begin
     end;
   10:
     begin
-      UFilter.PrevittFilter(GSI, CBAddToOriginal.Checked);
+      UFilter.SharrFilter(GSI, CBAddToOriginal.Checked);
       if CBAddToOriginal.Checked then
         OutFileName := OutFileName + '+';
-      OutFileName := OutFileName + 'Previtt';
+      OutFileName := OutFileName + 'Sharr';
+    end;
+  11:
+    begin
+      UFilter.LaplaceFilter(GSI, CBAddToOriginal.Checked);
+      if CBAddToOriginal.Checked then
+        OutFileName := OutFileName + '+';
+      OutFileName := OutFileName + 'Laplacian';
     end;
   end;
   OutFileName := OutFileName + '.bmp';
