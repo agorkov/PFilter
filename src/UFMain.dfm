@@ -94,8 +94,11 @@ object FMain: TFMain
       #1055#1086#1088#1103#1076#1082#1086#1074#1099#1081' ('#1084#1080#1085#1080#1084#1091#1084')'
       #1050#1086#1084#1073#1080#1085#1080#1088#1086#1074#1072#1085#1085#1099#1081' ('#1089#1088#1077#1076#1080#1085#1085#1072#1103' '#1090#1086#1095#1082#1072')'
       #1050#1086#1084#1073#1080#1085#1080#1088#1086#1074#1072#1085#1085#1099#1081' ('#1091#1089#1077#1095#1105#1085#1085#1086#1077' '#1089#1088#1077#1076#1085#1077#1077')'
-      #1051#1072#1087#1083#1072#1089#1080#1072#1085)
+      #1051#1072#1087#1083#1072#1089#1080#1072#1085
+      #1057#1086#1073#1077#1083#1100
+      #1055#1088#1077#1074#1080#1090#1090)
     TabOrder = 1
+    OnClick = RGFilterSelectClick
   end
   object GBFilterParams: TGroupBox
     Left = 359
@@ -156,6 +159,7 @@ object FMain: TFMain
       EditLabel.Caption = #1054#1090#1089#1077#1082#1072#1090#1100':'
       TabOrder = 4
       Text = '3'
+      Visible = False
     end
     object UDFilterD: TUpDown
       Left = 225
@@ -165,6 +169,17 @@ object FMain: TFMain
       Associate = LEFilterd
       Position = 3
       TabOrder = 5
+      Visible = False
+    end
+    object CBAddToOriginal: TCheckBox
+      Left = 171
+      Top = 35
+      Width = 70
+      Height = 31
+      Caption = #1055#1086#1074#1099#1089#1080#1090#1100' '#1088#1077#1079#1082#1086#1089#1090#1100
+      TabOrder = 6
+      Visible = False
+      WordWrap = True
     end
   end
   object OPD1: TOpenPictureDialog

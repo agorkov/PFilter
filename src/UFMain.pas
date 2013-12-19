@@ -20,12 +20,14 @@ type
     LTime: TLabel;
     LEFilterd: TLabeledEdit;
     UDFilterD: TUpDown;
+    CBAddToOriginal: TCheckBox;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
     procedure IOutDblClick(Sender: TObject);
     procedure LEFilterNChange(Sender: TObject);
     procedure LEFilterMChange(Sender: TObject);
+    procedure RGFilterSelectClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -61,52 +63,68 @@ begin
   T := Now;
   OutFileName := ExtractFileName(OPD1.FileName);
   Delete(OutFileName, pos(ExtractFileExt(OutFileName), OutFileName), length(OutFileName));
-  OutFileName := OutFileName + '_' + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_';
+  OutFileName := OutFileName + '_';
   case RGFilterSelect.ItemIndex of
   0:
     begin
       UFilter.AVGFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + 'AVG';
+      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'AVG';
     end;
   1:
     begin
       UFilter.WeightedAVGFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + 'WeightedAVG';
+      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'WeightedAVG';
     end;
   2:
     begin
       UFilter.GeometricMeanFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + 'GeometricMean';
+      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'GeometricMean';
     end;
   3:
     begin
       UFilter.MedianFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + 'Median';
+      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'Median';
     end;
   4:
     begin
       UFilter.MaxFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + 'Max';
+      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'Max';
     end;
   5:
     begin
       UFilter.MinFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + 'Min';
+      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'Min';
     end;
   6:
     begin
       UFilter.MiddlePointFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + 'MiddlePoint';
+      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'MiddlePoint';
     end;
   7:
     begin
       UFilter.TruncatedAVGFilter(GSI, FilterN, FilterM, StrToInt(LEFilterd.Text));
-      OutFileName := OutFileName + 'TrancetedAVG';
+      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + LEFilterd.Text + '_TrancetedAVG';
     end;
   8:
     begin
-      UFilter.LaplaceFilter(GSI);
+      UFilter.LaplaceFilter(GSI, CBAddToOriginal.Checked);
+      if CBAddToOriginal.Checked then
+        OutFileName := OutFileName + '+';
       OutFileName := OutFileName + 'Laplacian';
+    end;
+  9:
+    begin
+      UFilter.SobelFilter(GSI, CBAddToOriginal.Checked);
+      if CBAddToOriginal.Checked then
+        OutFileName := OutFileName + '+';
+      OutFileName := OutFileName + 'Sobel';
+    end;
+  10:
+    begin
+      UFilter.PrevittFilter(GSI, CBAddToOriginal.Checked);
+      if CBAddToOriginal.Checked then
+        OutFileName := OutFileName + '+';
+      OutFileName := OutFileName + 'Previtt';
     end;
   end;
   OutFileName := OutFileName + '.bmp';
@@ -181,6 +199,21 @@ begin
   FilterM := 2 * FilterM + 1;
   LEFilterd.Text := inttostr(FilterN * FilterM div 3);
   UDFilterD.Max := (FilterN * FilterM - 1) div 2;
+end;
+
+procedure TFMain.RGFilterSelectClick(Sender: TObject);
+begin
+
+  LEFilterd.Visible := false;
+  UDFilterD.Visible := false;
+  CBAddToOriginal.Visible := false;
+  if RGFilterSelect.ItemIndex = 7 then
+  begin
+    LEFilterd.Visible := true;
+    UDFilterD.Visible := true;
+  end;
+  if RGFilterSelect.ItemIndex > 7 then
+    CBAddToOriginal.Visible := true;
 end;
 
 end.
