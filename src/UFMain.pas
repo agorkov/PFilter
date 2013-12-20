@@ -23,14 +23,15 @@ type
     CBAddToOriginal: TCheckBox;
     BLinear: TButton;
     GBLinear: TGroupBox;
-    LEK: TLabeledEdit;
-    UDk: TUpDown;
-    LEb: TLabeledEdit;
-    UDb: TUpDown;
+    LELinearK: TLabeledEdit;
+    LELinearb: TLabeledEdit;
     GBLog: TGroupBox;
     BLog: TButton;
-    LEC: TLabeledEdit;
-    UDC: TUpDown;
+    LELogC: TLabeledEdit;
+    GBGamma: TGroupBox;
+    BGamma: TButton;
+    LEGammaC: TLabeledEdit;
+    LEGammaGamma: TLabeledEdit;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -39,9 +40,9 @@ type
     procedure LEFilterMChange(Sender: TObject);
     procedure RGFilterSelectClick(Sender: TObject);
     procedure BLinearClick(Sender: TObject);
-    procedure FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer;
-      var Resize: Boolean);
+    procedure FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer; var Resize: Boolean);
     procedure BLogClick(Sender: TObject);
+    procedure BGammaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -156,12 +157,13 @@ begin
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
 end;
 
-procedure TFMain.BLinearClick(Sender: TObject);
+procedure TFMain.BGammaClick(Sender: TObject);
+
 var
   GSI: UImages.TGreyscaleImage;
   BM: TBitmap;
   T: TDateTime;
-  k, b: integer;
+  c, gamma: double;
 begin
   T := Now;
   LTime.Caption := 'Выполняется фильтрация...';
@@ -170,8 +172,31 @@ begin
   BM.Assign(IIn.Picture);
   UImages.LoadGSIFromBitMap(GSI, BM);
   BM.Free;
-  k := UDk.Position;
-  b := UDb.Position;
+  c := strtofloat(LEGammaC.Text);
+  gamma := strtofloat(LEGammaGamma.Text);
+  UFilter.GammaTransform(GSI, c, gamma);
+  BM := UImages.SaveGreyscaleImgToBitMap(GSI);
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
+end;
+
+procedure TFMain.BLinearClick(Sender: TObject);
+var
+  GSI: UImages.TGreyscaleImage;
+  BM: TBitmap;
+  T: TDateTime;
+  k, b: double;
+begin
+  T := Now;
+  LTime.Caption := 'Выполняется фильтрация...';
+  FMain.Refresh;
+  BM := TBitmap.Create;
+  BM.Assign(IIn.Picture);
+  UImages.LoadGSIFromBitMap(GSI, BM);
+  BM.Free;
+  k := strtofloat(LELinearK.Text);
+  b := strtofloat(LELinearb.Text);
   UFilter.LinearTransform(GSI, k, b);
   BM := UImages.SaveGreyscaleImgToBitMap(GSI);
   IOut.Picture.Assign(BM);
@@ -184,7 +209,7 @@ var
   GSI: UImages.TGreyscaleImage;
   BM: TBitmap;
   T: TDateTime;
-  c: integer;
+  c: double;
 begin
   T := Now;
   LTime.Caption := 'Выполняется фильтрация...';
@@ -193,7 +218,7 @@ begin
   BM.Assign(IIn.Picture);
   UImages.LoadGSIFromBitMap(GSI, BM);
   BM.Free;
-  c := UDc.Position;
+  c := strtofloat(LELogC.Text);
   UFilter.LogTransform(GSI, c);
   BM := UImages.SaveGreyscaleImgToBitMap(GSI);
   IOut.Picture.Assign(BM);
@@ -207,10 +232,9 @@ begin
   IOut.Canvas.Rectangle(1, 1, IOut.Width, IOut.Height);
 end;
 
-procedure TFMain.FormCanResize(Sender: TObject; var NewWidth,
-  NewHeight: Integer; var Resize: Boolean);
+procedure TFMain.FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer; var Resize: Boolean);
 begin
-  Resize:=false;
+  Resize := false;
 end;
 
 procedure TFMain.IInDblClick(Sender: TObject);

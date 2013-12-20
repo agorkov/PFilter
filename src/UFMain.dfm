@@ -166,18 +166,18 @@ object FMain: TFMain
     Top = 390
     Width = 129
     Height = 99
-    Caption = 'GBLinear'
+    Caption = #1051#1080#1085#1077#1081#1085#1072#1103' '#1082#1086#1088#1088#1077#1082#1094#1080#1103':'
     TabOrder = 2
     object BLinear: TButton
       Left = 16
       Top = 59
       Width = 104
       Height = 25
-      Caption = 'BLinear'
+      Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100
       TabOrder = 0
       OnClick = BLinearClick
     end
-    object LEK: TLabeledEdit
+    object LELinearK: TLabeledEdit
       Left = 16
       Top = 32
       Width = 33
@@ -188,17 +188,7 @@ object FMain: TFMain
       TabOrder = 1
       Text = '-1'
     end
-    object UDk: TUpDown
-      Left = 49
-      Top = 32
-      Width = 16
-      Height = 21
-      Associate = LEK
-      Min = -100
-      Position = -1
-      TabOrder = 2
-    end
-    object LEb: TLabeledEdit
+    object LELinearb: TLabeledEdit
       Left = 71
       Top = 32
       Width = 33
@@ -206,19 +196,8 @@ object FMain: TFMain
       EditLabel.Width = 10
       EditLabel.Height = 13
       EditLabel.Caption = 'b:'
-      TabOrder = 3
+      TabOrder = 2
       Text = '255'
-    end
-    object UDb: TUpDown
-      Left = 104
-      Top = 32
-      Width = 16
-      Height = 21
-      Associate = LEb
-      Min = -255
-      Max = 255
-      Position = 255
-      TabOrder = 4
     end
   end
   object RGFilterSelect: TRadioGroup
@@ -245,40 +224,70 @@ object FMain: TFMain
     OnClick = RGFilterSelectClick
   end
   object GBLog: TGroupBox
-    Left = 143
+    Left = 431
     Top = 390
     Width = 129
     Height = 99
-    Caption = 'GBLog'
+    Caption = #1051#1086#1075'. '#1082#1086#1088#1088#1077#1082#1094#1080#1103':'
     TabOrder = 4
     object BLog: TButton
       Left = 16
       Top = 59
       Width = 104
       Height = 25
-      Caption = 'BLog'
+      Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100
       TabOrder = 0
       OnClick = BLogClick
     end
-    object LEC: TLabeledEdit
+    object LELogC: TLabeledEdit
       Left = 48
       Top = 32
       Width = 33
       Height = 21
       EditLabel.Width = 9
       EditLabel.Height = 13
-      EditLabel.Caption = 'k:'
+      EditLabel.Caption = 'c:'
+      TabOrder = 1
+      Text = '15'
+    end
+  end
+  object GBGamma: TGroupBox
+    Left = 832
+    Top = 390
+    Width = 129
+    Height = 99
+    Caption = #1043#1072#1084#1084#1072' '#1082#1086#1088#1088#1077#1082#1094#1080#1103
+    TabOrder = 5
+    object BGamma: TButton
+      Left = 16
+      Top = 59
+      Width = 104
+      Height = 25
+      Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100
+      TabOrder = 0
+      OnClick = BGammaClick
+    end
+    object LEGammaC: TLabeledEdit
+      Left = 16
+      Top = 32
+      Width = 33
+      Height = 21
+      EditLabel.Width = 9
+      EditLabel.Height = 13
+      EditLabel.Caption = 'c:'
       TabOrder = 1
       Text = '1'
     end
-    object UDC: TUpDown
-      Left = 81
+    object LEGammaGamma: TLabeledEdit
+      Left = 71
       Top = 32
-      Width = 16
+      Width = 33
       Height = 21
-      Associate = LEC
-      Position = 1
+      EditLabel.Width = 39
+      EditLabel.Height = 13
+      EditLabel.Caption = 'Gamma:'
       TabOrder = 2
+      Text = '1,7'
     end
   end
   object OPD1: TOpenPictureDialog
