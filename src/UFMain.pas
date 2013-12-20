@@ -21,6 +21,12 @@ type
     LEFilterd: TLabeledEdit;
     UDFilterD: TUpDown;
     CBAddToOriginal: TCheckBox;
+    BLinear: TButton;
+    GBLinear: TGroupBox;
+    LEK: TLabeledEdit;
+    UDk: TUpDown;
+    LEb: TLabeledEdit;
+    UDb: TUpDown;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -28,6 +34,7 @@ type
     procedure LEFilterNChange(Sender: TObject);
     procedure LEFilterMChange(Sender: TObject);
     procedure RGFilterSelectClick(Sender: TObject);
+    procedure BLinearClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -42,7 +49,7 @@ implementation
 {$R *.dfm}
 
 uses
-  UPixelConvert, UImages, UFilter;
+  UPixelConvert, UImages, UFilter, Math;
 
 procedure TFMain.BFilterClick(Sender: TObject);
 var
@@ -142,6 +149,29 @@ begin
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
 end;
 
+procedure TFMain.BLinearClick(Sender: TObject);
+var
+  GSI: UImages.TGreyscaleImage;
+  BM: TBitmap;
+  T: TDateTime;
+  k, b: integer;
+begin
+  T := Now;
+  LTime.Caption := 'Выполняется фильтрация...';
+  FMain.Refresh;
+  BM := TBitmap.Create;
+  BM.Assign(IIn.Picture);
+  UImages.LoadGSIFromBitMap(GSI, BM);
+  BM.Free;
+  k := UDk.Position;
+  b := UDb.Position;
+  UFilter.LinearTransform(GSI, k, b);
+  BM := UImages.SaveGreyscaleImgToBitMap(GSI);
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
+end;
+
 procedure TFMain.FormActivate(Sender: TObject);
 begin
   IIn.Canvas.Rectangle(1, 1, IIn.Width, IIn.Height);
@@ -153,7 +183,7 @@ var
   row, col: word;
   BM: TBitmap;
   color: TColor;
-  r, g, b, Y, I, Q: double;
+  r, g, b, Y, i, Q: double;
 begin
   if OPD1.Execute then
   begin
@@ -165,7 +195,7 @@ begin
       begin
         color := BM.Canvas.Pixels[col, row];
         UPixelConvert.TColorToRGB(color, r, g, b);
-        UPixelConvert.RGBToYIQ(r, g, b, Y, I, Q);
+        UPixelConvert.RGBToYIQ(r, g, b, Y, i, Q);
         color := UPixelConvert.RGBToColor(Y, Y, Y);
         BM.Canvas.Pixels[col, row] := color;
       end;
