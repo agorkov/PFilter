@@ -35,6 +35,8 @@ type
     procedure LEFilterMChange(Sender: TObject);
     procedure RGFilterSelectClick(Sender: TObject);
     procedure BLinearClick(Sender: TObject);
+    procedure FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer;
+      var Resize: Boolean);
   private
     { Private declarations }
   public
@@ -176,6 +178,12 @@ procedure TFMain.FormActivate(Sender: TObject);
 begin
   IIn.Canvas.Rectangle(1, 1, IIn.Width, IIn.Height);
   IOut.Canvas.Rectangle(1, 1, IOut.Width, IOut.Height);
+end;
+
+procedure TFMain.FormCanResize(Sender: TObject; var NewWidth,
+  NewHeight: Integer; var Resize: Boolean);
+begin
+  Resize:=false;
 end;
 
 procedure TFMain.IInDblClick(Sender: TObject);

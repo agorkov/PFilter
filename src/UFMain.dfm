@@ -38,6 +38,7 @@ object FMain: TFMain
   OldCreateOrder = False
   Position = poScreenCenter
   OnActivate = FormActivate
+  OnCanResize = FormCanResize
   PixelsPerInch = 96
   TextHeight = 13
   object IIn: TImage
