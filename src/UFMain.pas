@@ -27,6 +27,10 @@ type
     UDk: TUpDown;
     LEb: TLabeledEdit;
     UDb: TUpDown;
+    GBLog: TGroupBox;
+    BLog: TButton;
+    LEC: TLabeledEdit;
+    UDC: TUpDown;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -37,6 +41,7 @@ type
     procedure BLinearClick(Sender: TObject);
     procedure FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer;
       var Resize: Boolean);
+    procedure BLogClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -168,6 +173,28 @@ begin
   k := UDk.Position;
   b := UDb.Position;
   UFilter.LinearTransform(GSI, k, b);
+  BM := UImages.SaveGreyscaleImgToBitMap(GSI);
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
+end;
+
+procedure TFMain.BLogClick(Sender: TObject);
+var
+  GSI: UImages.TGreyscaleImage;
+  BM: TBitmap;
+  T: TDateTime;
+  c: integer;
+begin
+  T := Now;
+  LTime.Caption := 'Выполняется фильтрация...';
+  FMain.Refresh;
+  BM := TBitmap.Create;
+  BM.Assign(IIn.Picture);
+  UImages.LoadGSIFromBitMap(GSI, BM);
+  BM.Free;
+  c := UDc.Position;
+  UFilter.LogTransform(GSI, c);
   BM := UImages.SaveGreyscaleImgToBitMap(GSI);
   IOut.Picture.Assign(BM);
   BM.Free;

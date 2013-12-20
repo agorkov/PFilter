@@ -244,6 +244,43 @@ object FMain: TFMain
     TabOrder = 3
     OnClick = RGFilterSelectClick
   end
+  object GBLog: TGroupBox
+    Left = 143
+    Top = 390
+    Width = 129
+    Height = 99
+    Caption = 'GBLog'
+    TabOrder = 4
+    object BLog: TButton
+      Left = 16
+      Top = 59
+      Width = 104
+      Height = 25
+      Caption = 'BLog'
+      TabOrder = 0
+      OnClick = BLogClick
+    end
+    object LEC: TLabeledEdit
+      Left = 48
+      Top = 32
+      Width = 33
+      Height = 21
+      EditLabel.Width = 9
+      EditLabel.Height = 13
+      EditLabel.Caption = 'k:'
+      TabOrder = 1
+      Text = '1'
+    end
+    object UDC: TUpDown
+      Left = 81
+      Top = 32
+      Width = 16
+      Height = 21
+      Associate = LEC
+      Position = 1
+      TabOrder = 2
+    end
+  end
   object OPD1: TOpenPictureDialog
     Filter = 'Bitmaps (*.bmp)|*.bmp'
     Left = 16
