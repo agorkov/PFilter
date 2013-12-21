@@ -2,7 +2,7 @@ object FMain: TFMain
   Left = 0
   Top = 0
   Caption = #1043#1086#1088#1100#1082#1086#1074' '#1040'. - '#1060#1080#1083#1100#1090#1088#1072#1094#1080#1103
-  ClientHeight = 517
+  ClientHeight = 497
   ClientWidth = 969
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -65,7 +65,7 @@ object FMain: TFMain
   end
   object LTime: TLabel
     Left = 8
-    Top = 495
+    Top = 421
     Width = 102
     Height = 13
     Caption = #1042#1088#1077#1084#1103' '#1092#1080#1083#1100#1090#1088#1072#1094#1080#1080': '
@@ -162,7 +162,7 @@ object FMain: TFMain
     end
   end
   object GBLinear: TGroupBox
-    Left = 8
+    Left = 562
     Top = 390
     Width = 129
     Height = 99
@@ -224,7 +224,7 @@ object FMain: TFMain
     OnClick = RGFilterSelectClick
   end
   object GBLog: TGroupBox
-    Left = 431
+    Left = 697
     Top = 390
     Width = 129
     Height = 99
@@ -289,6 +289,15 @@ object FMain: TFMain
       TabOrder = 2
       Text = '1,7'
     end
+  end
+  object BHist: TButton
+    Left = 8
+    Top = 390
+    Width = 153
+    Height = 25
+    Caption = #1069#1082#1074#1072#1083#1080#1079#1072#1094#1080#1103' '#1075#1080#1089#1090#1086#1075#1088#1072#1084#1084#1099
+    TabOrder = 6
+    OnClick = BHistClick
   end
   object OPD1: TOpenPictureDialog
     Filter = 'Bitmaps (*.bmp)|*.bmp'

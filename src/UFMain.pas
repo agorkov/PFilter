@@ -32,6 +32,7 @@ type
     BGamma: TButton;
     LEGammaC: TLabeledEdit;
     LEGammaGamma: TLabeledEdit;
+    BHist: TButton;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -43,6 +44,7 @@ type
     procedure FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer; var Resize: Boolean);
     procedure BLogClick(Sender: TObject);
     procedure BGammaClick(Sender: TObject);
+    procedure BHistClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -175,6 +177,26 @@ begin
   c := strtofloat(LEGammaC.Text);
   gamma := strtofloat(LEGammaGamma.Text);
   UFilter.GammaTransform(GSI, c, gamma);
+  BM := UImages.SaveGreyscaleImgToBitMap(GSI);
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
+end;
+
+procedure TFMain.BHistClick(Sender: TObject);
+var
+  GSI: UImages.TGreyscaleImage;
+  BM: TBitmap;
+  T: TDateTime;
+begin
+  T := Now;
+  LTime.Caption := 'Выполняется фильтрация...';
+  FMain.Refresh;
+  BM := TBitmap.Create;
+  BM.Assign(IIn.Picture);
+  UImages.LoadGSIFromBitMap(GSI, BM);
+  BM.Free;
+  UFilter.HistogramEqualization(GSI);
   BM := UImages.SaveGreyscaleImgToBitMap(GSI);
   IOut.Picture.Assign(BM);
   BM.Free;
