@@ -9,7 +9,7 @@ type
   TFMain = class(TForm)
     IIn: TImage;
     IOut: TImage;
-    OPD1: TOpenPictureDialog;
+    OPD: TOpenPictureDialog;
     BFilter: TButton;
     RGFilterSelect: TRadioGroup;
     GBFilterParams: TGroupBox;
@@ -33,6 +33,7 @@ type
     LEGammaC: TLabeledEdit;
     LEGammaGamma: TLabeledEdit;
     BHist: TButton;
+    SPD: TSaveDialog;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -45,6 +46,7 @@ type
     procedure BLogClick(Sender: TObject);
     procedure BGammaClick(Sender: TObject);
     procedure BHistClick(Sender: TObject);
+    procedure IOutMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
   public
@@ -59,102 +61,76 @@ implementation
 {$R *.dfm}
 
 uses
-  UPixelConvert, UImages, UFilter, Math;
+  UPixelConvert, UImages, UFilter, Math, JPEG;
 
 procedure TFMain.BFilterClick(Sender: TObject);
 var
-  GSI: UImages.TGreyscaleImage;
+  RGBI: UImages.TRGBImage;
   BM: TBitmap;
   FilterN, FilterM: byte;
   T: TDateTime;
-  OutFileName: string;
 begin
   LTime.Caption := 'Выполняется фильтрация...';
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  UImages.LoadGSIFromBitMap(GSI, BM);
+  UImages.LoadRGBIFromBitMap(RGBI, BM);
   BM.Free;
   FilterN := StrToInt(LEFilterN.Text);
   FilterM := StrToInt(LEFilterM.Text);
   T := Now;
-  OutFileName := ExtractFileName(OPD1.FileName);
-  Delete(OutFileName, pos(ExtractFileExt(OutFileName), OutFileName), length(OutFileName));
-  OutFileName := OutFileName + '_';
   case RGFilterSelect.ItemIndex of
   0:
     begin
-      UFilter.AVGFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'AVG';
+      UFilter.RGBAVGFilter(RGBI, FilterN, FilterM);
     end;
   1:
     begin
-      UFilter.WeightedAVGFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'WeightedAVG';
+      UFilter.RGBWeightedAVGFilter(RGBI, FilterN, FilterM);
     end;
   2:
     begin
-      UFilter.GeometricMeanFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'GeometricMean';
+      UFilter.RGBGeometricMeanFilter(RGBI, FilterN, FilterM);
     end;
   3:
     begin
-      UFilter.MedianFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'Median';
+      UFilter.RGBMedianFilter(RGBI, FilterN, FilterM);
     end;
   4:
     begin
-      UFilter.MaxFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'Max';
+      UFilter.RGBMaxFilter(RGBI, FilterN, FilterM);
     end;
   5:
     begin
-      UFilter.MinFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'Min';
+      UFilter.RGBMinFilter(RGBI, FilterN, FilterM);
     end;
   6:
     begin
-      UFilter.MiddlePointFilter(GSI, FilterN, FilterM);
-      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + 'MiddlePoint';
+      UFilter.RGBMiddlePointFilter(RGBI, FilterN, FilterM);
     end;
   7:
     begin
-      UFilter.TruncatedAVGFilter(GSI, FilterN, FilterM, StrToInt(LEFilterd.Text));
-      OutFileName := OutFileName + inttostr(FilterN) + 'x' + inttostr(FilterM) + '_' + LEFilterd.Text + '_TrancetedAVG';
+      UFilter.RGBTruncatedAVGFilter(RGBI, FilterN, FilterM, StrToInt(LEFilterd.Text));
     end;
   8:
     begin
-      UFilter.PrevittFilter(GSI, CBAddToOriginal.Checked);
-      if CBAddToOriginal.Checked then
-        OutFileName := OutFileName + '+';
-      OutFileName := OutFileName + 'Previtt';
+      UFilter.RGBPrevittFilter(RGBI, CBAddToOriginal.Checked);
     end;
   9:
     begin
-      UFilter.SobelFilter(GSI, CBAddToOriginal.Checked);
-      if CBAddToOriginal.Checked then
-        OutFileName := OutFileName + '+';
-      OutFileName := OutFileName + 'Sobel';
+      UFilter.RGBSobelFilter(RGBI, CBAddToOriginal.Checked);
     end;
   10:
     begin
-      UFilter.SharrFilter(GSI, CBAddToOriginal.Checked);
-      if CBAddToOriginal.Checked then
-        OutFileName := OutFileName + '+';
-      OutFileName := OutFileName + 'Sharr';
+      UFilter.RGBSharrFilter(RGBI, CBAddToOriginal.Checked);
     end;
   11:
     begin
-      UFilter.LaplaceFilter(GSI, CBAddToOriginal.Checked);
-      if CBAddToOriginal.Checked then
-        OutFileName := OutFileName + '+';
-      OutFileName := OutFileName + 'Laplacian';
+      UFilter.RGBLaplaceFilter(RGBI, CBAddToOriginal.Checked);
     end;
   end;
-  OutFileName := OutFileName + '.bmp';
-  BM := UImages.SaveGreyscaleImgToBitMap(GSI);
+  BM := UImages.SaveRGBImgToBitMap(RGBI);
   IOut.Picture.Assign(BM);
-  BM.SaveToFile(OutFileName);
   BM.Free;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
 end;
@@ -162,7 +138,7 @@ end;
 procedure TFMain.BGammaClick(Sender: TObject);
 
 var
-  GSI: UImages.TGreyscaleImage;
+  RGBI: UImages.TRGBImage;
   BM: TBitmap;
   T: TDateTime;
   c, gamma: double;
@@ -172,12 +148,12 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  UImages.LoadGSIFromBitMap(GSI, BM);
+  UImages.LoadRGBIFromBitMap(RGBI, BM);
   BM.Free;
   c := strtofloat(LEGammaC.Text);
   gamma := strtofloat(LEGammaGamma.Text);
-  UFilter.GammaTransform(GSI, c, gamma);
-  BM := UImages.SaveGreyscaleImgToBitMap(GSI);
+  UFilter.RGBGammaTransform(RGBI, c, gamma);
+  BM := UImages.SaveRGBImgToBitMap(RGBI);
   IOut.Picture.Assign(BM);
   BM.Free;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
@@ -185,27 +161,42 @@ end;
 
 procedure TFMain.BHistClick(Sender: TObject);
 var
-  GSI: UImages.TGreyscaleImage;
-  BM: TBitmap;
+  { RGBI: UImages.TGreyscaleImage;
+    BM: TBitmap;
+    T: TDateTime; }
+  RGB: TRGBImage;
   T: TDateTime;
+  BM: TBitmap;
 begin
   T := Now;
   LTime.Caption := 'Выполняется фильтрация...';
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  UImages.LoadGSIFromBitMap(GSI, BM);
+  UImages.LoadRGBIFromBitMap(RGB, BM);
   BM.Free;
-  UFilter.HistogramEqualization(GSI);
-  BM := UImages.SaveGreyscaleImgToBitMap(GSI);
+  UFilter.RGBHistogramEqualization(RGB);
+  BM := UImages.SaveRGBImgToBitMap(RGB);
   IOut.Picture.Assign(BM);
   BM.Free;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
+  { T := Now;
+    LTime.Caption := 'Выполняется фильтрация...';
+    FMain.Refresh;
+    BM := TBitmap.Create;
+    BM.Assign(IIn.Picture);
+    UImages.LoadRGBIFromBitMap(RGBI, BM);
+    BM.Free;
+    UFilter.HistogramEqualization(RGBI);
+    BM := UImages.SaveGreyscaleImgToBitMap(RGBI);
+    IOut.Picture.Assign(BM);
+    BM.Free;
+    LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T); }
 end;
 
 procedure TFMain.BLinearClick(Sender: TObject);
 var
-  GSI: UImages.TGreyscaleImage;
+  RGB: UImages.TRGBImage;
   BM: TBitmap;
   T: TDateTime;
   k, b: double;
@@ -215,12 +206,12 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  UImages.LoadGSIFromBitMap(GSI, BM);
+  UImages.LoadRGBIFromBitMap(RGB, BM);
   BM.Free;
   k := strtofloat(LELinearK.Text);
   b := strtofloat(LELinearb.Text);
-  UFilter.LinearTransform(GSI, k, b);
-  BM := UImages.SaveGreyscaleImgToBitMap(GSI);
+  UFilter.RGBLinearTransform(RGB, k, b);
+  BM := UImages.SaveRGBImgToBitMap(RGB);
   IOut.Picture.Assign(BM);
   BM.Free;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
@@ -228,7 +219,7 @@ end;
 
 procedure TFMain.BLogClick(Sender: TObject);
 var
-  GSI: UImages.TGreyscaleImage;
+  RGBI: UImages.TRGBImage;
   BM: TBitmap;
   T: TDateTime;
   c: double;
@@ -238,11 +229,11 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  UImages.LoadGSIFromBitMap(GSI, BM);
+  UImages.LoadRGBIFromBitMap(RGBI, BM);
   BM.Free;
   c := strtofloat(LELogC.Text);
-  UFilter.LogTransform(GSI, c);
-  BM := UImages.SaveGreyscaleImgToBitMap(GSI);
+  UFilter.RGBLogTransform(RGBI, c);
+  BM := UImages.SaveRGBImgToBitMap(RGBI);
   IOut.Picture.Assign(BM);
   BM.Free;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
@@ -259,29 +250,45 @@ begin
   Resize := false;
 end;
 
+procedure JPEGtoBMP(const FileName: TFileName);
+var
+  JPEG: TJPEGImage;
+  bmp: TBitmap;
+begin
+  JPEG := TJPEGImage.Create;
+  try
+    JPEG.CompressionQuality := 100;
+    JPEG.LoadFromFile(FileName);
+    bmp := TBitmap.Create;
+    try
+      bmp.Assign(JPEG);
+      bmp.SaveToFile(ChangeFileExt(FileName, '.bmp'));
+    finally
+      bmp.Free
+    end;
+  finally
+    JPEG.Free
+  end;
+end;
+
 procedure TFMain.IInDblClick(Sender: TObject);
 var
-  row, col: word;
-  BM: TBitmap;
-  color: TColor;
-  r, g, b, Y, i, Q: double;
+  str: string;
+  fl: Boolean;
 begin
-  if OPD1.Execute then
+  fl := false;
+  if OPD.Execute then
   begin
-    IIn.Picture.LoadFromFile(OPD1.FileName);
-    BM := TBitmap.Create;
-    BM.Assign(IIn.Picture);
-    for row := 1 to BM.Height do
-      for col := 1 to BM.Width do
-      begin
-        color := BM.Canvas.Pixels[col, row];
-        UPixelConvert.TColorToRGB(color, r, g, b);
-        UPixelConvert.RGBToYIQ(r, g, b, Y, i, Q);
-        color := UPixelConvert.RGBToColor(Y, Y, Y);
-        BM.Canvas.Pixels[col, row] := color;
-      end;
-    IIn.Picture.Assign(BM);
-    BM.Free;
+    str := ANSIUpperCase(OPD.FileName);
+    if (ExtractFileExt(str) = '.JPG') or (ExtractFileExt(str) = '.JPEG') then
+    begin
+      JPEGtoBMP(str);
+      str := ChangeFileExt(str, '.bmp');
+      fl := true;
+    end;
+    IIn.Picture.LoadFromFile(str);
+    if fl then
+      DeleteFile(str);
   end;
 end;
 
@@ -293,6 +300,13 @@ begin
   BM.Assign(IOut.Picture);
   IIn.Picture.Assign(BM);
   BM.Free;
+end;
+
+procedure TFMain.IOutMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if ssCtrl in Shift then
+    if SPD.Execute then
+      IOut.Picture.SaveToFile(SPD.FileName);
 end;
 
 procedure TFMain.LEFilterMChange(Sender: TObject);

@@ -2,8 +2,8 @@ object FMain: TFMain
   Left = 0
   Top = 0
   Caption = #1043#1086#1088#1100#1082#1086#1074' '#1040'. - '#1060#1080#1083#1100#1090#1088#1072#1094#1080#1103
-  ClientHeight = 497
-  ClientWidth = 969
+  ClientHeight = 610
+  ClientWidth = 1473
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -44,45 +44,46 @@ object FMain: TFMain
   object IIn: TImage
     Left = 8
     Top = 8
-    Width = 345
-    Height = 345
+    Width = 590
+    Height = 590
     Center = True
     Proportional = True
     Stretch = True
     OnDblClick = IInDblClick
   end
   object IOut: TImage
-    Left = 615
+    Left = 874
     Top = 8
-    Width = 345
-    Height = 345
+    Width = 590
+    Height = 590
     Center = True
     ParentShowHint = False
     Proportional = True
     ShowHint = False
     Stretch = True
     OnDblClick = IOutDblClick
+    OnMouseDown = IOutMouseDown
   end
   object LTime: TLabel
-    Left = 8
-    Top = 421
+    Left = 604
+    Top = 582
     Width = 102
     Height = 13
     Caption = #1042#1088#1077#1084#1103' '#1092#1080#1083#1100#1090#1088#1072#1094#1080#1080': '
   end
   object BFilter: TButton
-    Left = 8
-    Top = 359
-    Width = 952
+    Left = 604
+    Top = 311
+    Width = 264
     Height = 25
     Caption = #1042#1099#1087#1086#1083#1085#1080#1090#1100' '#1092#1080#1083#1100#1090#1088#1072#1094#1080#1102
     TabOrder = 0
     OnClick = BFilterClick
   end
   object GBFilterParams: TGroupBox
-    Left = 359
+    Left = 604
     Top = 8
-    Width = 250
+    Width = 264
     Height = 74
     Caption = #1040#1087#1077#1088#1090#1091#1088#1072' '#1092#1080#1083#1100#1090#1088#1072
     TabOrder = 1
@@ -162,8 +163,8 @@ object FMain: TFMain
     end
   end
   object GBLinear: TGroupBox
-    Left = 562
-    Top = 390
+    Left = 604
+    Top = 372
     Width = 129
     Height = 99
     Caption = #1051#1080#1085#1077#1081#1085#1072#1103' '#1082#1086#1088#1088#1077#1082#1094#1080#1103':'
@@ -201,10 +202,10 @@ object FMain: TFMain
     end
   end
   object RGFilterSelect: TRadioGroup
-    Left = 359
+    Left = 604
     Top = 88
-    Width = 250
-    Height = 265
+    Width = 264
+    Height = 217
     Caption = #1042#1099#1073#1086#1088' '#1092#1080#1083#1100#1090#1088#1072':'
     ItemIndex = 0
     Items.Strings = (
@@ -224,8 +225,8 @@ object FMain: TFMain
     OnClick = RGFilterSelectClick
   end
   object GBLog: TGroupBox
-    Left = 697
-    Top = 390
+    Left = 739
+    Top = 372
     Width = 129
     Height = 99
     Caption = #1051#1086#1075'. '#1082#1086#1088#1088#1077#1082#1094#1080#1103':'
@@ -252,14 +253,14 @@ object FMain: TFMain
     end
   end
   object GBGamma: TGroupBox
-    Left = 832
-    Top = 390
-    Width = 129
+    Left = 604
+    Top = 477
+    Width = 264
     Height = 99
     Caption = #1043#1072#1084#1084#1072' '#1082#1086#1088#1088#1077#1082#1094#1080#1103
     TabOrder = 5
     object BGamma: TButton
-      Left = 16
+      Left = 88
       Top = 59
       Width = 104
       Height = 25
@@ -268,7 +269,7 @@ object FMain: TFMain
       OnClick = BGammaClick
     end
     object LEGammaC: TLabeledEdit
-      Left = 16
+      Left = 88
       Top = 32
       Width = 33
       Height = 21
@@ -279,7 +280,7 @@ object FMain: TFMain
       Text = '1'
     end
     object LEGammaGamma: TLabeledEdit
-      Left = 71
+      Left = 143
       Top = 32
       Width = 33
       Height = 21
@@ -291,17 +292,22 @@ object FMain: TFMain
     end
   end
   object BHist: TButton
-    Left = 8
-    Top = 390
-    Width = 153
+    Left = 604
+    Top = 342
+    Width = 264
     Height = 25
     Caption = #1069#1082#1074#1072#1083#1080#1079#1072#1094#1080#1103' '#1075#1080#1089#1090#1086#1075#1088#1072#1084#1084#1099
     TabOrder = 6
     OnClick = BHistClick
   end
-  object OPD1: TOpenPictureDialog
-    Filter = 'Bitmaps (*.bmp)|*.bmp'
+  object OPD: TOpenPictureDialog
+    Filter = 'All|*.bmp;*.jpg;*.jpeg'
     Left = 16
+    Top = 16
+  end
+  object SPD: TSaveDialog
+    Filter = 'bmp|*.bmp'
+    Left = 880
     Top = 16
   end
 end
