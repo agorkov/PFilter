@@ -28,12 +28,21 @@ type
     GBLog: TGroupBox;
     BLog: TButton;
     LELogC: TLabeledEdit;
+    BHist: TButton;
+    SPD: TSaveDialog;
+    BConvertToGreyscale: TButton;
+    PCOperations: TPageControl;
+    TSFilter: TTabSheet;
+    TSGradation: TTabSheet;
+    TSHistogram: TTabSheet;
     GBGamma: TGroupBox;
     BGamma: TButton;
     LEGammaC: TLabeledEdit;
     LEGammaGamma: TLabeledEdit;
-    BHist: TButton;
-    SPD: TSaveDialog;
+    IHistR: TImage;
+    IHistG: TImage;
+    IHistB: TImage;
+    BHistogram: TButton;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -47,6 +56,9 @@ type
     procedure BGammaClick(Sender: TObject);
     procedure BHistClick(Sender: TObject);
     procedure IOutMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure BConvertToGreyscaleClick(Sender: TObject);
+    procedure TSHistogramShow(Sender: TObject);
+    procedure BHistogramClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -61,7 +73,7 @@ implementation
 {$R *.dfm}
 
 uses
-  UPixelConvert, UImages, UFilter, Math, JPEG;
+  UImages, UFilter, Math, JPEG;
 
 procedure TFMain.BFilterClick(Sender: TObject);
 var
@@ -180,18 +192,31 @@ begin
   IOut.Picture.Assign(BM);
   BM.Free;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
-  { T := Now;
-    LTime.Caption := 'Выполняется фильтрация...';
-    FMain.Refresh;
-    BM := TBitmap.Create;
-    BM.Assign(IIn.Picture);
-    UImages.LoadRGBIFromBitMap(RGBI, BM);
-    BM.Free;
-    UFilter.HistogramEqualization(RGBI);
-    BM := UImages.SaveGreyscaleImgToBitMap(RGBI);
-    IOut.Picture.Assign(BM);
-    BM.Free;
-    LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T); }
+end;
+
+procedure TFMain.BHistogramClick(Sender: TObject);
+var
+  RGBI: TRGBImage;
+  BM: TBitmap;
+  T: TDateTime;
+begin
+  T := Now;
+  LTime.Caption := 'Выполняется фильтрация...';
+  FMain.Refresh;
+  BM := TBitmap.Create;
+  BM.Assign(IIn.Picture);
+  UImages.LoadRGBIFromBitMap(RGBI, BM);
+  BM.Free;
+  BM := UFilter.Histogram(RGBI, 1);
+  IHistR.Picture.Assign(BM);
+  BM.Free;
+  BM := UFilter.Histogram(RGBI, 2);
+  IHistG.Picture.Assign(BM);
+  BM.Free;
+  BM := UFilter.Histogram(RGBI, 3);
+  IHistB.Picture.Assign(BM);
+  BM.Free;
+  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
 end;
 
 procedure TFMain.BLinearClick(Sender: TObject);
@@ -235,6 +260,26 @@ begin
   UFilter.RGBLogTransform(RGBI, c);
   BM := UImages.SaveRGBImgToBitMap(RGBI);
   IOut.Picture.Assign(BM);
+  BM.Free;
+  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
+end;
+
+procedure TFMain.BConvertToGreyscaleClick(Sender: TObject);
+var
+  RGBI: TRGBImage;
+  BM: TBitmap;
+  GSI: TGreyscaleImage;
+  T: TDateTime;
+begin
+  T := Now;
+  LTime.Caption := 'Выполняется фильтрация...';
+  FMain.Refresh;
+  BM := TBitmap.Create;
+  BM.Assign(IIn.Picture);
+  UImages.LoadRGBIFromBitMap(RGBI, BM);
+  BM.Free;
+  GSI := ConvertRGBIToGSI(RGBI);
+  IOut.Picture.Assign(SaveGreyscaleImgToBitMap(GSI));
   BM.Free;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
 end;
@@ -346,6 +391,11 @@ begin
   end;
   if RGFilterSelect.ItemIndex > 7 then
     CBAddToOriginal.Visible := true;
+end;
+
+procedure TFMain.TSHistogramShow(Sender: TObject);
+begin
+  BHistogramClick(nil);
 end;
 
 end.
