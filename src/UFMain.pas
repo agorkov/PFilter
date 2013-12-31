@@ -86,7 +86,7 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  UImages.LoadRGBIFromBitMap(RGBI, BM);
+  RGBI:=UImages.LoadRGBIFromBitMap(BM);
   BM.Free;
   FilterN := StrToInt(LEFilterN.Text);
   FilterM := StrToInt(LEFilterM.Text);
@@ -160,7 +160,7 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  UImages.LoadRGBIFromBitMap(RGBI, BM);
+  RGBI:=UImages.LoadRGBIFromBitMap(BM);
   BM.Free;
   c := strtofloat(LEGammaC.Text);
   gamma := strtofloat(LEGammaGamma.Text);
@@ -185,7 +185,7 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  UImages.LoadRGBIFromBitMap(RGB, BM);
+  RGB:=UImages.LoadRGBIFromBitMap(BM);
   BM.Free;
   UFilter.RGBHistogramEqualization(RGB);
   BM := UImages.SaveRGBImgToBitMap(RGB);
@@ -205,7 +205,7 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  UImages.LoadRGBIFromBitMap(RGBI, BM);
+  RGBI:=UImages.LoadRGBIFromBitMap(BM);
   BM.Free;
   BM := UFilter.Histogram(RGBI, 1);
   IHistR.Picture.Assign(BM);
@@ -231,7 +231,7 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  UImages.LoadRGBIFromBitMap(RGB, BM);
+  RGB:=UImages.LoadRGBIFromBitMap(BM);
   BM.Free;
   k := strtofloat(LELinearK.Text);
   b := strtofloat(LELinearb.Text);
@@ -254,7 +254,7 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  UImages.LoadRGBIFromBitMap(RGBI, BM);
+  RGBI:=UImages.LoadRGBIFromBitMap(BM);
   BM.Free;
   c := strtofloat(LELogC.Text);
   UFilter.RGBLogTransform(RGBI, c);
@@ -276,7 +276,7 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  UImages.LoadRGBIFromBitMap(RGBI, BM);
+  RGBI:=UImages.LoadRGBIFromBitMap(BM);
   BM.Free;
   GSI := ConvertRGBIToGSI(RGBI);
   IOut.Picture.Assign(SaveGreyscaleImgToBitMap(GSI));

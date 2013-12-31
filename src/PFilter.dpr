@@ -5,7 +5,8 @@ uses
   UFMain in 'UFMain.pas' {FMain},
   UImages in 'D:\ImgSharedUnits\src\UImages.pas',
   UPixelConvert in 'D:\ImgSharedUnits\src\UPixelConvert.pas',
-  UFilter in 'D:\ImgSharedUnits\src\UFilter.pas';
+  UFilter in 'D:\ImgSharedUnits\src\UFilter.pas',
+  UMorphology in 'D:\ImgSharedUnits\src\UMorphology.pas';
 
 {$R *.res}
 

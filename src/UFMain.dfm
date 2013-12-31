@@ -198,6 +198,10 @@ object FMain: TFMain
     object TSGradation: TTabSheet
       Caption = #1043#1088#1072#1076#1072#1094#1080#1086#1085#1085#1099#1077' '#1087#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1085#1080#1103
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GBLinear: TGroupBox
         Left = 18
         Top = 13
@@ -318,6 +322,10 @@ object FMain: TFMain
       Caption = #1043#1080#1089#1090#1086#1075#1088#1072#1084#1084#1099
       ImageIndex = 2
       OnShow = TSHistogramShow
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object IHistR: TImage
         Left = 3
         Top = 102
