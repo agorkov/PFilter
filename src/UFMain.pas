@@ -73,11 +73,11 @@ implementation
 {$R *.dfm}
 
 uses
-  UImages, UFilter, Math, JPEG;
+  URGBImages, UGrayscaleImages, UFilter, Math, JPEG, UImages;
 
 procedure TFMain.BFilterClick(Sender: TObject);
 var
-  RGBI: UImages.TRGBImage;
+  RGBI: TRGBImage;
   BM: TBitmap;
   FilterN, FilterM: byte;
   T: TDateTime;
@@ -86,7 +86,7 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  RGBI:=UImages.LoadRGBIFromBitMap(BM);
+  RGBI := LoadRGBIFromBitMap(BM);
   BM.Free;
   FilterN := StrToInt(LEFilterN.Text);
   FilterM := StrToInt(LEFilterM.Text);
@@ -94,54 +94,78 @@ begin
   case RGFilterSelect.ItemIndex of
   0:
     begin
-      UFilter.RGBAVGFilter(RGBI, FilterN, FilterM);
+      AVGFilter(RGBI.R, FilterN, FilterM);
+      AVGFilter(RGBI.G, FilterN, FilterM);
+      AVGFilter(RGBI.B, FilterN, FilterM);
     end;
   1:
     begin
-      UFilter.RGBWeightedAVGFilter(RGBI, FilterN, FilterM);
+      UFilter.WeightedAVGFilter(RGBI.R, FilterN, FilterM);
+      UFilter.WeightedAVGFilter(RGBI.G, FilterN, FilterM);
+      UFilter.WeightedAVGFilter(RGBI.B, FilterN, FilterM);
     end;
   2:
     begin
-      UFilter.RGBGeometricMeanFilter(RGBI, FilterN, FilterM);
+      UFilter.GeometricMeanFilter(RGBI.R, FilterN, FilterM);
+      UFilter.GeometricMeanFilter(RGBI.G, FilterN, FilterM);
+      UFilter.GeometricMeanFilter(RGBI.B, FilterN, FilterM);
     end;
   3:
     begin
-      UFilter.RGBMedianFilter(RGBI, FilterN, FilterM);
+      UFilter.MedianFilter(RGBI.R, FilterN, FilterM);
+      UFilter.MedianFilter(RGBI.G, FilterN, FilterM);
+      UFilter.MedianFilter(RGBI.B, FilterN, FilterM);
     end;
   4:
     begin
-      UFilter.RGBMaxFilter(RGBI, FilterN, FilterM);
+      UFilter.MaxFilter(RGBI.R, FilterN, FilterM);
+      UFilter.MaxFilter(RGBI.G, FilterN, FilterM);
+      UFilter.MaxFilter(RGBI.B, FilterN, FilterM);
     end;
   5:
     begin
-      UFilter.RGBMinFilter(RGBI, FilterN, FilterM);
+      UFilter.MinFilter(RGBI.R, FilterN, FilterM);
+      UFilter.MinFilter(RGBI.G, FilterN, FilterM);
+      UFilter.MinFilter(RGBI.B, FilterN, FilterM);
     end;
   6:
     begin
-      UFilter.RGBMiddlePointFilter(RGBI, FilterN, FilterM);
+      UFilter.MiddlePointFilter(RGBI.R, FilterN, FilterM);
+      UFilter.MiddlePointFilter(RGBI.G, FilterN, FilterM);
+      UFilter.MiddlePointFilter(RGBI.B, FilterN, FilterM);
     end;
   7:
     begin
-      UFilter.RGBTruncatedAVGFilter(RGBI, FilterN, FilterM, StrToInt(LEFilterd.Text));
+      UFilter.TruncatedAVGFilter(RGBI.R, FilterN, FilterM, StrToInt(LEFilterd.Text));
+      UFilter.TruncatedAVGFilter(RGBI.G, FilterN, FilterM, StrToInt(LEFilterd.Text));
+      UFilter.TruncatedAVGFilter(RGBI.B, FilterN, FilterM, StrToInt(LEFilterd.Text));
     end;
   8:
     begin
-      UFilter.RGBPrevittFilter(RGBI, CBAddToOriginal.Checked);
+      UFilter.PrevittFilter(RGBI.R, CBAddToOriginal.Checked);
+      UFilter.PrevittFilter(RGBI.G, CBAddToOriginal.Checked);
+      UFilter.PrevittFilter(RGBI.B, CBAddToOriginal.Checked);
     end;
   9:
     begin
-      UFilter.RGBSobelFilter(RGBI, CBAddToOriginal.Checked);
+      UFilter.SobelFilter(RGBI.R, CBAddToOriginal.Checked);
+      UFilter.SobelFilter(RGBI.G, CBAddToOriginal.Checked);
+      UFilter.SobelFilter(RGBI.B, CBAddToOriginal.Checked);
     end;
   10:
     begin
-      UFilter.RGBSharrFilter(RGBI, CBAddToOriginal.Checked);
+      UFilter.SharrFilter(RGBI.R, CBAddToOriginal.Checked);
+      UFilter.SharrFilter(RGBI.G, CBAddToOriginal.Checked);
+      UFilter.SharrFilter(RGBI.B, CBAddToOriginal.Checked);
     end;
   11:
     begin
-      UFilter.RGBLaplaceFilter(RGBI, CBAddToOriginal.Checked);
+      UFilter.LaplaceFilter(RGBI.R, CBAddToOriginal.Checked);
+      UFilter.LaplaceFilter(RGBI.G, CBAddToOriginal.Checked);
+      UFilter.LaplaceFilter(RGBI.B, CBAddToOriginal.Checked);
     end;
   end;
-  BM := UImages.SaveRGBImgToBitMap(RGBI);
+  BM := SaveRGBImgToBitMap(RGBI);
   IOut.Picture.Assign(BM);
   BM.Free;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
@@ -150,7 +174,7 @@ end;
 procedure TFMain.BGammaClick(Sender: TObject);
 
 var
-  RGBI: UImages.TRGBImage;
+  RGBI: TRGBImage;
   BM: TBitmap;
   T: TDateTime;
   c, gamma: double;
@@ -160,12 +184,14 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  RGBI:=UImages.LoadRGBIFromBitMap(BM);
+  RGBI := LoadRGBIFromBitMap(BM);
   BM.Free;
   c := strtofloat(LEGammaC.Text);
   gamma := strtofloat(LEGammaGamma.Text);
-  UFilter.RGBGammaTransform(RGBI, c, gamma);
-  BM := UImages.SaveRGBImgToBitMap(RGBI);
+  GammaTransform(RGBI.R, c, gamma);
+  GammaTransform(RGBI.G, c, gamma);
+  GammaTransform(RGBI.B, c, gamma);
+  BM := SaveRGBImgToBitMap(RGBI);
   IOut.Picture.Assign(BM);
   BM.Free;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
@@ -185,10 +211,12 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  RGB:=UImages.LoadRGBIFromBitMap(BM);
+  RGB := LoadRGBIFromBitMap(BM);
   BM.Free;
-  UFilter.RGBHistogramEqualization(RGB);
-  BM := UImages.SaveRGBImgToBitMap(RGB);
+  HistogramEqualization(RGB.R);
+  HistogramEqualization(RGB.G);
+  HistogramEqualization(RGB.B);
+  BM := SaveRGBImgToBitMap(RGB);
   IOut.Picture.Assign(BM);
   BM.Free;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
@@ -205,7 +233,7 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  RGBI:=UImages.LoadRGBIFromBitMap(BM);
+  RGBI := LoadRGBIFromBitMap(BM);
   BM.Free;
   BM := UFilter.Histogram(RGBI, 1);
   IHistR.Picture.Assign(BM);
@@ -221,22 +249,24 @@ end;
 
 procedure TFMain.BLinearClick(Sender: TObject);
 var
-  RGB: UImages.TRGBImage;
+  RGB: TRGBImage;
   BM: TBitmap;
   T: TDateTime;
-  k, b: double;
+  k, B: double;
 begin
   T := Now;
   LTime.Caption := 'Выполняется фильтрация...';
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  RGB:=UImages.LoadRGBIFromBitMap(BM);
+  RGB := LoadRGBIFromBitMap(BM);
   BM.Free;
   k := strtofloat(LELinearK.Text);
-  b := strtofloat(LELinearb.Text);
-  UFilter.RGBLinearTransform(RGB, k, b);
-  BM := UImages.SaveRGBImgToBitMap(RGB);
+  B := strtofloat(LELinearb.Text);
+  LinearTransform(RGB.R, k, B);
+  LinearTransform(RGB.G, k, B);
+  LinearTransform(RGB.B, k, B);
+  BM := SaveRGBImgToBitMap(RGB);
   IOut.Picture.Assign(BM);
   BM.Free;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
@@ -244,7 +274,7 @@ end;
 
 procedure TFMain.BLogClick(Sender: TObject);
 var
-  RGBI: UImages.TRGBImage;
+  RGBI: TRGBImage;
   BM: TBitmap;
   T: TDateTime;
   c: double;
@@ -254,11 +284,13 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  RGBI:=UImages.LoadRGBIFromBitMap(BM);
+  RGBI := LoadRGBIFromBitMap(BM);
   BM.Free;
   c := strtofloat(LELogC.Text);
-  UFilter.RGBLogTransform(RGBI, c);
-  BM := UImages.SaveRGBImgToBitMap(RGBI);
+  LogTransform(RGBI.R, c);
+  LogTransform(RGBI.G, c);
+  LogTransform(RGBI.B, c);
+  BM := SaveRGBImgToBitMap(RGBI);
   IOut.Picture.Assign(BM);
   BM.Free;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
@@ -276,7 +308,7 @@ begin
   FMain.Refresh;
   BM := TBitmap.Create;
   BM.Assign(IIn.Picture);
-  RGBI:=UImages.LoadRGBIFromBitMap(BM);
+  RGBI := LoadRGBIFromBitMap(BM);
   BM.Free;
   GSI := ConvertRGBIToGSI(RGBI);
   IOut.Picture.Assign(SaveGreyscaleImgToBitMap(GSI));
