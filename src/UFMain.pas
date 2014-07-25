@@ -73,7 +73,7 @@ implementation
 {$R *.dfm}
 
 uses
-  URGBImages, UGrayscaleImages, UFilter, Math, JPEG, UImages;
+  URGBImages, UGrayscaleImages, UFilter, Math, JPEG;
 
 procedure TFMain.BFilterClick(Sender: TObject);
 var
