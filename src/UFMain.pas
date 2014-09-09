@@ -73,7 +73,7 @@ implementation
 {$R *.dfm}
 
 uses
-  URGBImages, UGrayscaleImages, UFilter, Math, JPEG, UColorImages, UGrayscale, UPixelConvert;
+  Math, JPEG, UColorImages, UGrayscaleImages, UPixelConvert;
 
 procedure TFMain.BFilterClick(Sender: TObject);
 var
@@ -196,48 +196,36 @@ end;
 
 procedure TFMain.BHistClick(Sender: TObject);
 var
-  RGB: TRGBImage;
+  RGB: TCColorImage;
   T: TDateTime;
-  BM: TBitmap;
 begin
   T := Now;
   LTime.Caption := 'Выполняется фильтрация...';
   FMain.Refresh;
-  BM := TBitmap.Create;
-  BM.Assign(IIn.Picture);
-  RGB := LoadRGBIFromBitMap(BM);
-  BM.Free;
-  HistogramEqualization(RGB.R);
-  HistogramEqualization(RGB.G);
-  HistogramEqualization(RGB.B);
-  BM := SaveRGBImgToBitMap(RGB);
-  IOut.Picture.Assign(BM);
-  BM.Free;
+
+  RGB := TCColorImage.Create;
+  RGB.LoadFromBitMap(IIn.Picture.Bitmap);
+  RGB.HistogramEqualization(ccRed);
+  RGB.HistogramEqualization(ccGreen);
+  RGB.HistogramEqualization(ccBlue);
+  IOut.Picture.Assign(RGB.SaveToBitMap);
+
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
 end;
 
 procedure TFMain.BHistogramClick(Sender: TObject);
 var
-  RGBI: TRGBImage;
-  BM: TBitmap;
+  RGBI: TCColorImage;
   T: TDateTime;
 begin
   T := Now;
   LTime.Caption := 'Выполняется фильтрация...';
   FMain.Refresh;
-  BM := TBitmap.Create;
-  BM.Assign(IIn.Picture);
-  RGBI := LoadRGBIFromBitMap(BM);
-  BM.Free;
-  BM := UFilter.Histogram(RGBI, 1);
-  IHistR.Picture.Assign(BM);
-  BM.Free;
-  BM := UFilter.Histogram(RGBI, 2);
-  IHistG.Picture.Assign(BM);
-  BM.Free;
-  BM := UFilter.Histogram(RGBI, 3);
-  IHistB.Picture.Assign(BM);
-  BM.Free;
+  RGBI := TCColorImage.Create;
+  RGBI.LoadFromBitMap(IIn.Picture.Bitmap);
+  IHistR.Picture.Assign(RGBI.Histogram(ccRed));
+  IHistG.Picture.Assign(RGBI.Histogram(ccGreen));
+  IHistB.Picture.Assign(RGBI.Histogram(ccBlue));
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - T);
 end;
 
