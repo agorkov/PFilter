@@ -3,9 +3,7 @@ unit UFMain;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Vcl.ExtDlgs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtDlgs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls;
 
 type
   TFMain = class(TForm)
@@ -53,13 +51,11 @@ type
     procedure LEFilterMChange(Sender: TObject);
     procedure RGFilterSelectClick(Sender: TObject);
     procedure BLinearClick(Sender: TObject);
-    procedure FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer;
-      var Resize: Boolean);
+    procedure FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer; var Resize: Boolean);
     procedure BLogClick(Sender: TObject);
     procedure BGammaClick(Sender: TObject);
     procedure BHistClick(Sender: TObject);
-    procedure IOutMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    procedure IOutMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure BConvertToGreyscaleClick(Sender: TObject);
     procedure TSHistogramShow(Sender: TObject);
     procedure BHistogramClick(Sender: TObject);
@@ -77,8 +73,7 @@ implementation
 {$R *.dfm}
 
 uses
-  URGBImages, UGrayscaleImages, UFilter, Math, JPEG, UColorImages, UGrayscale,
-  UPixelConvert;
+  URGBImages, UGrayscaleImages, UFilter, Math, JPEG, UColorImages, UGrayscale, UPixelConvert;
 
 procedure TFMain.BFilterClick(Sender: TObject);
 var
@@ -96,81 +91,78 @@ begin
   FilterM := StrToInt(LEFilterM.Text);
 
   case RGFilterSelect.ItemIndex of
-    0:
-      begin
-        RGB.AVGFilter(ccRed, FilterN, FilterM);
-        RGB.AVGFilter(ccGreen, FilterN, FilterM);
-        RGB.AVGFilter(ccBlue, FilterN, FilterM);
-      end;
-    1:
-      begin
-        RGB.WeightedAVGFilter(ccRed, FilterN, FilterM);
-        RGB.WeightedAVGFilter(ccGreen, FilterN, FilterM);
-        RGB.WeightedAVGFilter(ccBlue, FilterN, FilterM);
-      end;
-    2:
-      begin
-        RGB.GeometricMeanFilter(ccRed, FilterN, FilterM);
-        RGB.GeometricMeanFilter(ccGreen, FilterN, FilterM);
-        RGB.GeometricMeanFilter(ccBlue, FilterN, FilterM);
-      end;
-    3:
-      begin
-        RGB.MedianFilter(ccRed, FilterN, FilterM);
-        RGB.MedianFilter(ccGreen, FilterN, FilterM);
-        RGB.MedianFilter(ccBlue, FilterN, FilterM);
-      end;
-    4:
-      begin
-        RGB.MaxFilter(ccRed, FilterN, FilterM);
-        RGB.MaxFilter(ccGreen, FilterN, FilterM);
-        RGB.MaxFilter(ccBlue, FilterN, FilterM);
-      end;
-    5:
-      begin
-        RGB.MinFilter(ccRed, FilterN, FilterM);
-        RGB.MinFilter(ccGreen, FilterN, FilterM);
-        RGB.MinFilter(ccBlue, FilterN, FilterM);
-      end;
-    6:
-      begin
-        RGB.MiddlePointFilter(ccRed, FilterN, FilterM);
-        RGB.MiddlePointFilter(ccGreen, FilterN, FilterM);
-        RGB.MiddlePointFilter(ccBlue, FilterN, FilterM);
-      end;
-    7:
-      begin
-        RGB.TruncatedAVGFilter(ccRed, FilterN, FilterM,
-          StrToInt(LEFilterd.Text));
-        RGB.TruncatedAVGFilter(ccGreen, FilterN, FilterM,
-          StrToInt(LEFilterd.Text));
-        RGB.TruncatedAVGFilter(ccBlue, FilterN, FilterM,
-          StrToInt(LEFilterd.Text));
-      end;
-    8:
-      begin
-        { UFilter.PrevittFilter(RGBI.R, CBAddToOriginal.Checked);
-          UFilter.PrevittFilter(RGBI.G, CBAddToOriginal.Checked);
-          UFilter.PrevittFilter(RGBI.B, CBAddToOriginal.Checked); }
-      end;
-    9:
-      begin
-        { UFilter.SobelFilter(RGBI.R, CBAddToOriginal.Checked);
-          UFilter.SobelFilter(RGBI.G, CBAddToOriginal.Checked);
-          UFilter.SobelFilter(RGBI.B, CBAddToOriginal.Checked); }
-      end;
-    10:
-      begin
-        { UFilter.SharrFilter(RGBI.R, CBAddToOriginal.Checked);
-          UFilter.SharrFilter(RGBI.G, CBAddToOriginal.Checked);
-          UFilter.SharrFilter(RGBI.B, CBAddToOriginal.Checked); }
-      end;
-    11:
-      begin
-        { UFilter.LaplaceFilter(RGBI.R, CBAddToOriginal.Checked);
-          UFilter.LaplaceFilter(RGBI.G, CBAddToOriginal.Checked);
-          UFilter.LaplaceFilter(RGBI.B, CBAddToOriginal.Checked); }
-      end;
+  0:
+    begin
+      RGB.AVGFilter(ccRed, FilterN, FilterM);
+      RGB.AVGFilter(ccGreen, FilterN, FilterM);
+      RGB.AVGFilter(ccBlue, FilterN, FilterM);
+    end;
+  1:
+    begin
+      RGB.WeightedAVGFilter(ccRed, FilterN, FilterM);
+      RGB.WeightedAVGFilter(ccGreen, FilterN, FilterM);
+      RGB.WeightedAVGFilter(ccBlue, FilterN, FilterM);
+    end;
+  2:
+    begin
+      RGB.GeometricMeanFilter(ccRed, FilterN, FilterM);
+      RGB.GeometricMeanFilter(ccGreen, FilterN, FilterM);
+      RGB.GeometricMeanFilter(ccBlue, FilterN, FilterM);
+    end;
+  3:
+    begin
+      RGB.MedianFilter(ccRed, FilterN, FilterM);
+      RGB.MedianFilter(ccGreen, FilterN, FilterM);
+      RGB.MedianFilter(ccBlue, FilterN, FilterM);
+    end;
+  4:
+    begin
+      RGB.MaxFilter(ccRed, FilterN, FilterM);
+      RGB.MaxFilter(ccGreen, FilterN, FilterM);
+      RGB.MaxFilter(ccBlue, FilterN, FilterM);
+    end;
+  5:
+    begin
+      RGB.MinFilter(ccRed, FilterN, FilterM);
+      RGB.MinFilter(ccGreen, FilterN, FilterM);
+      RGB.MinFilter(ccBlue, FilterN, FilterM);
+    end;
+  6:
+    begin
+      RGB.MiddlePointFilter(ccRed, FilterN, FilterM);
+      RGB.MiddlePointFilter(ccGreen, FilterN, FilterM);
+      RGB.MiddlePointFilter(ccBlue, FilterN, FilterM);
+    end;
+  7:
+    begin
+      RGB.TruncatedAVGFilter(ccRed, FilterN, FilterM, StrToInt(LEFilterd.Text));
+      RGB.TruncatedAVGFilter(ccGreen, FilterN, FilterM, StrToInt(LEFilterd.Text));
+      RGB.TruncatedAVGFilter(ccBlue, FilterN, FilterM, StrToInt(LEFilterd.Text));
+    end;
+  8:
+    begin
+      RGB.PrevittFilter(ccRed, CBAddToOriginal.Checked);
+      RGB.PrevittFilter(ccGreen, CBAddToOriginal.Checked);
+      RGB.PrevittFilter(ccBlue, CBAddToOriginal.Checked);
+    end;
+  9:
+    begin
+      RGB.SobelFilter(ccRed, CBAddToOriginal.Checked);
+      RGB.SobelFilter(ccGreen, CBAddToOriginal.Checked);
+      RGB.SobelFilter(ccBlue, CBAddToOriginal.Checked);
+    end;
+  10:
+    begin
+      RGB.SharrFilter(ccRed, CBAddToOriginal.Checked);
+      RGB.SharrFilter(ccGreen, CBAddToOriginal.Checked);
+      RGB.SharrFilter(ccBlue, CBAddToOriginal.Checked);
+    end;
+  11:
+    begin
+      RGB.LaplaceFilter(ccRed, CBAddToOriginal.Checked);
+      RGB.LaplaceFilter(ccGreen, CBAddToOriginal.Checked);
+      RGB.LaplaceFilter(ccBlue, CBAddToOriginal.Checked);
+    end;
   end;
   IOut.Picture.Assign(RGB.SaveToBitMap);
   RGB.Free;
@@ -315,8 +307,7 @@ begin
   IOut.Canvas.Rectangle(1, 1, IOut.Width, IOut.Height);
 end;
 
-procedure TFMain.FormCanResize(Sender: TObject;
-  var NewWidth, NewHeight: Integer; var Resize: Boolean);
+procedure TFMain.FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer; var Resize: Boolean);
 begin
   Resize := false;
 end;
@@ -373,8 +364,7 @@ begin
   BM.Free;
 end;
 
-procedure TFMain.IOutMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TFMain.IOutMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   if ssCtrl in Shift then
     if SPD.Execute then

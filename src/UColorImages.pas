@@ -31,6 +31,12 @@ type
     procedure MinFilter(Channel: TEColorChannel; h, w: word);
     procedure MiddlePointFilter(Channel: TEColorChannel; h, w: word);
     procedure TruncatedAVGFilter(Channel: TEColorChannel; h, w, d: word);
+    procedure PrevittFilter(Channel: TEColorChannel; AddToOriginal: boolean);
+    procedure SobelFilter(Channel: TEColorChannel; AddToOriginal: boolean);
+    procedure SharrFilter(Channel: TEColorChannel; AddToOriginal: boolean);
+    procedure LaplaceFilter(Channel: TEColorChannel; AddToOriginal: boolean);
+    // procedure HistogramEqualization(var GSI: TGreyscaleImage);
+    // function Histogram(var RGBI: TRGBImage; Channel: byte): TBitMap;
 
     procedure LinearTransform(Channel: TEColorChannel; k, b: double);
     procedure LogTransform(Channel: TEColorChannel; c: double);
@@ -118,8 +124,7 @@ begin
   GetChanel := GS;
 end;
 
-procedure TCColorImage.SetChannel(Channel: TEColorChannel;
-  GS: TCGrayscaleImage);
+procedure TCColorImage.SetChannel(Channel: TEColorChannel; GS: TCGrayscaleImage);
 var
   i, j: word;
 begin
@@ -198,13 +203,52 @@ begin
   GS.Free;
 end;
 
-procedure TCColorImage.TruncatedAVGFilter(Channel: TEColorChannel;
-  h, w, d: word);
+procedure TCColorImage.TruncatedAVGFilter(Channel: TEColorChannel; h, w, d: word);
 var
   GS: TCGrayscaleImage;
 begin
   GS := self.GetChanel(Channel);
   GS.TruncatedAVGFilter(h, w, d);
+  self.SetChannel(Channel, GS);
+  GS.Free;
+end;
+
+procedure TCColorImage.PrevittFilter(Channel: TEColorChannel; AddToOriginal: boolean);
+var
+  GS: TCGrayscaleImage;
+begin
+  GS := self.GetChanel(Channel);
+  GS.PrevittFilter(AddToOriginal);
+  self.SetChannel(Channel, GS);
+  GS.Free;
+end;
+
+procedure TCColorImage.SobelFilter(Channel: TEColorChannel; AddToOriginal: boolean);
+var
+  GS: TCGrayscaleImage;
+begin
+  GS := self.GetChanel(Channel);
+  GS.SobelFilter(AddToOriginal);
+  self.SetChannel(Channel, GS);
+  GS.Free;
+end;
+
+procedure TCColorImage.SharrFilter(Channel: TEColorChannel; AddToOriginal: boolean);
+var
+  GS: TCGrayscaleImage;
+begin
+  GS := self.GetChanel(Channel);
+  GS.SharrFilter(AddToOriginal);
+  self.SetChannel(Channel, GS);
+  GS.Free;
+end;
+
+procedure TCColorImage.LaplaceFilter(Channel: TEColorChannel; AddToOriginal: boolean);
+var
+  GS: TCGrayscaleImage;
+begin
+  GS := self.GetChanel(Channel);
+  GS.LaplaceFilter(AddToOriginal);
   self.SetChannel(Channel, GS);
   GS.Free;
 end;
@@ -240,8 +284,7 @@ begin
   GS.Free;
 end;
 
-procedure TCColorImage.GammaTransform(Channel: TEColorChannel;
-  c, gamma: double);
+procedure TCColorImage.GammaTransform(Channel: TEColorChannel; c, gamma: double);
 var
   GS: TCGrayscaleImage;
 begin
