@@ -3,13 +3,15 @@ program PFilter;
 uses
   Vcl.Forms,
   UFMain in 'UFMain.pas' {FMain},
-  UBinarization in 'D:\ImgSharedUnits\src\UBinarization.pas',
-  UBinaryImages in 'D:\ImgSharedUnits\src\UBinaryImages.pas',
-  UFilter in 'D:\ImgSharedUnits\src\UFilter.pas',
-  UGrayscaleImages in 'D:\ImgSharedUnits\src\UGrayscaleImages.pas',
-  UMorphology in 'D:\ImgSharedUnits\src\UMorphology.pas',
-  UPixelConvert in 'D:\ImgSharedUnits\src\UPixelConvert.pas',
-  URGBImages in 'D:\ImgSharedUnits\src\URGBImages.pas';
+  UBinarization in '..\..\ImgSharedUnits\src\UBinarization.pas',
+  UBinaryImages in '..\..\ImgSharedUnits\src\UBinaryImages.pas',
+  UFilter in '..\..\ImgSharedUnits\src\UFilter.pas',
+  UGrayscaleImages in '..\..\ImgSharedUnits\src\UGrayscaleImages.pas',
+  UMorphology in '..\..\ImgSharedUnits\src\UMorphology.pas',
+  UPixelConvert in '..\..\ImgSharedUnits\src\UPixelConvert.pas',
+  URGBImages in '..\..\ImgSharedUnits\src\URGBImages.pas',
+  UColorImages in 'UColorImages.pas',
+  UGrayscale in 'UGrayscale.pas';
 
 {$R *.res}
 

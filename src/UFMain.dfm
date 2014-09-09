@@ -234,7 +234,7 @@ object FMain: TFMain
           EditLabel.Height = 13
           EditLabel.Caption = 'b:'
           TabOrder = 2
-          Text = '255'
+          Text = '1'
         end
       end
       object GBLog: TGroupBox
@@ -262,7 +262,7 @@ object FMain: TFMain
           EditLabel.Height = 13
           EditLabel.Caption = 'c:'
           TabOrder = 1
-          Text = '15'
+          Text = '1,5'
         end
       end
       object GBGamma: TGroupBox
@@ -301,7 +301,7 @@ object FMain: TFMain
           EditLabel.Height = 13
           EditLabel.Caption = 'Gamma:'
           TabOrder = 2
-          Text = '1,7'
+          Text = '0,5'
         end
       end
       object BConvertToGreyscale: TButton
