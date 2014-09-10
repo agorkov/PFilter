@@ -129,9 +129,9 @@ object FMain: TFMain
           Text = '1'
           OnChange = LEFilterMChange
         end
-        object LEFilterd: TLabeledEdit
+        object LEFilterD: TLabeledEdit
           Left = 195
-          Top = 30
+          Top = 35
           Width = 30
           Height = 21
           EditLabel.Width = 53
@@ -143,18 +143,18 @@ object FMain: TFMain
         end
         object UDFilterD: TUpDown
           Left = 225
-          Top = 30
+          Top = 35
           Width = 16
           Height = 21
-          Associate = LEFilterd
+          Associate = LEFilterD
           Position = 3
           TabOrder = 5
           Visible = False
         end
         object CBAddToOriginal: TCheckBox
-          Left = 171
-          Top = 25
-          Width = 70
+          Left = 75
+          Top = 23
+          Width = 122
           Height = 31
           Caption = #1055#1086#1074#1099#1089#1080#1090#1100' '#1088#1077#1079#1082#1086#1089#1090#1100
           TabOrder = 6
@@ -320,7 +320,7 @@ object FMain: TFMain
       OnShow = TSHistogramShow
       object IHistR: TImage
         Left = 3
-        Top = 102
+        Top = 54
         Width = 317
         Height = 65
         Center = True
@@ -328,7 +328,7 @@ object FMain: TFMain
       end
       object IHistG: TImage
         Left = 3
-        Top = 173
+        Top = 149
         Width = 317
         Height = 65
         Center = True
@@ -342,23 +342,14 @@ object FMain: TFMain
         Center = True
         Stretch = True
       end
-      object BHist: TButton
+      object BHistogramEqualization: TButton
         Left = 3
-        Top = 44
+        Top = 12
         Width = 317
         Height = 25
         Caption = #1069#1082#1074#1072#1083#1080#1079#1072#1094#1080#1103' '#1075#1080#1089#1090#1086#1075#1088#1072#1084#1084#1099
         TabOrder = 0
-        OnClick = BHistClick
-      end
-      object BHistogram: TButton
-        Left = 3
-        Top = 13
-        Width = 317
-        Height = 25
-        Caption = #1055#1086#1089#1090#1088#1086#1080#1090#1100' '#1075#1080#1089#1090#1086#1075#1088#1072#1084#1084#1091
-        TabOrder = 1
-        OnClick = BHistogramClick
+        OnClick = BHistogramEqualizationClick
       end
     end
   end

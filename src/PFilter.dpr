@@ -3,9 +3,10 @@ program PFilter;
 uses
   Vcl.Forms,
   UFMain in 'UFMain.pas' {FMain},
-  UPixelConvert in 'D:\ImgSharedUnits\src\UPixelConvert.pas',
-  UColorImages in 'D:\ImgSharedUnits\src\UColorImages.pas',
-  UGrayscaleImages in 'D:\ImgSharedUnits\src\UGrayscaleImages.pas';
+  UColorImages in '..\..\ImgSharedUnits\src\UColorImages.pas',
+  UGrayscaleImages in '..\..\ImgSharedUnits\src\UGrayscaleImages.pas',
+  UPixelConvert in '..\..\ImgSharedUnits\src\UPixelConvert.pas',
+  UFileConvert in '..\..\ImgSharedUnits\src\UFileConvert.pas';
 
 {$R *.res}
 
