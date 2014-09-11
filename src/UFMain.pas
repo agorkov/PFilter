@@ -278,9 +278,6 @@ begin
 end;
 
 procedure TFMain.IInDblClick(Sender: TObject);
-var
-  str: string;
-  fl: Boolean;
 begin
   if OPD.Execute then
   begin
@@ -291,8 +288,6 @@ begin
 end;
 
 procedure TFMain.IOutDblClick(Sender: TObject);
-var
-  BM: TBitmap;
 begin
   IIn.Picture.Assign(IOut.Picture.Bitmap);
   if PCOperations.TabIndex = 2 then
