@@ -1,14 +1,12 @@
-unit UFMain;
+unit UFFilter;
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Vcl.ExtDlgs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtDlgs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls;
 
 type
-  TFMain = class(TForm)
+  TFFilter = class(TForm)
     IIn: TImage;
     IOut: TImage;
     OPD: TOpenPictureDialog;
@@ -32,7 +30,7 @@ type
     LELogC: TLabeledEdit;
     BHistogramEqualization: TButton;
     SPD: TSaveDialog;
-    BConvertToGreyscale: TButton;
+    BConvertToGrayscale: TButton;
     PCOperations: TPageControl;
     TSFilter: TTabSheet;
     TSGradation: TTabSheet;
@@ -52,14 +50,12 @@ type
     procedure LEFilterMChange(Sender: TObject);
     procedure RGFilterSelectClick(Sender: TObject);
     procedure BLinearClick(Sender: TObject);
-    procedure FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer;
-      var Resize: Boolean);
+    procedure FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer; var Resize: Boolean);
     procedure BLogClick(Sender: TObject);
     procedure BGammaClick(Sender: TObject);
     procedure BHistogramEqualizationClick(Sender: TObject);
-    procedure IOutMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure BConvertToGreyscaleClick(Sender: TObject);
+    procedure IOutMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure BConvertToGrayscaleClick(Sender: TObject);
     procedure TSHistogramShow(Sender: TObject);
   private
     { Private declarations }
@@ -68,7 +64,7 @@ type
   end;
 
 var
-  FMain: TFMain;
+  FFilter: TFFilter;
 
 implementation
 
@@ -84,116 +80,125 @@ var
 procedure StartFiltration;
 begin
   TStart := Now;
-  FMain.LTime.Caption := 'Выполняется фильтрация...';
-  FMain.Refresh;
+  FFilter.LTime.Caption := 'Выполняется фильтрация...';
+  FFilter.Refresh;
 end;
 
 procedure GetHistogram;
 var
   RGBI: TCColorImage;
+  BM: Tbitmap;
 begin
   StartFiltration;
-  RGBI := TCColorImage.CreateandLoadFromBitMap(FMain.IIn.Picture.Bitmap);
-  FMain.IHistR.Picture.Assign(RGBI.Histogram(ccRed));
-  FMain.IHistG.Picture.Assign(RGBI.Histogram(ccGreen));
-  FMain.IHistB.Picture.Assign(RGBI.Histogram(ccBlue));
-  FMain.LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
+  RGBI := TCColorImage.CreateandLoadFromBitMap(FFilter.IIn.Picture.Bitmap);
+  BM := RGBI.Histogram(ccRed);
+  FFilter.IHistR.Picture.Assign(BM);
+  BM.Free;
+  BM := RGBI.Histogram(ccGreen);
+  FFilter.IHistG.Picture.Assign(BM);
+  BM.Free;
+  BM := RGBI.Histogram(ccBlue);
+  FFilter.IHistB.Picture.Assign(BM);
+  BM.Free;
+  RGBI.FreeColorImage;
+  FFilter.LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
-procedure TFMain.BFilterClick(Sender: TObject);
+procedure TFFilter.BFilterClick(Sender: TObject);
 var
   RGB: TCColorImage;
+  BM: Tbitmap;
 begin
   StartFiltration;
 
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
 
   case RGFilterSelect.ItemIndex of
-    0:
-      begin
-        RGB.AVGFilter(ccRed, FilterH, FilterW);
-        RGB.AVGFilter(ccGreen, FilterH, FilterW);
-        RGB.AVGFilter(ccBlue, FilterH, FilterW);
-      end;
-    1:
-      begin
-        RGB.WeightedAVGFilter(ccRed, FilterH, FilterW);
-        RGB.WeightedAVGFilter(ccGreen, FilterH, FilterW);
-        RGB.WeightedAVGFilter(ccBlue, FilterH, FilterW);
-      end;
-    2:
-      begin
-        RGB.GeometricMeanFilter(ccRed, FilterH, FilterW);
-        RGB.GeometricMeanFilter(ccGreen, FilterH, FilterW);
-        RGB.GeometricMeanFilter(ccBlue, FilterH, FilterW);
-      end;
-    3:
-      begin
-        RGB.MedianFilter(ccRed, FilterH, FilterW);
-        RGB.MedianFilter(ccGreen, FilterH, FilterW);
-        RGB.MedianFilter(ccBlue, FilterH, FilterW);
-      end;
-    4:
-      begin
-        RGB.MaxFilter(ccRed, FilterH, FilterW);
-        RGB.MaxFilter(ccGreen, FilterH, FilterW);
-        RGB.MaxFilter(ccBlue, FilterH, FilterW);
-      end;
-    5:
-      begin
-        RGB.MinFilter(ccRed, FilterH, FilterW);
-        RGB.MinFilter(ccGreen, FilterH, FilterW);
-        RGB.MinFilter(ccBlue, FilterH, FilterW);
-      end;
-    6:
-      begin
-        RGB.MiddlePointFilter(ccRed, FilterH, FilterW);
-        RGB.MiddlePointFilter(ccGreen, FilterH, FilterW);
-        RGB.MiddlePointFilter(ccBlue, FilterH, FilterW);
-      end;
-    7:
-      begin
-        RGB.TruncatedAVGFilter(ccRed, FilterH, FilterW,
-          StrToInt(LEFilterD.Text));
-        RGB.TruncatedAVGFilter(ccGreen, FilterH, FilterW,
-          StrToInt(LEFilterD.Text));
-        RGB.TruncatedAVGFilter(ccBlue, FilterH, FilterW,
-          StrToInt(LEFilterD.Text));
-      end;
-    8:
-      begin
-        RGB.PrevittFilter(ccRed, CBAddToOriginal.Checked);
-        RGB.PrevittFilter(ccGreen, CBAddToOriginal.Checked);
-        RGB.PrevittFilter(ccBlue, CBAddToOriginal.Checked);
-      end;
-    9:
-      begin
-        RGB.SobelFilter(ccRed, CBAddToOriginal.Checked);
-        RGB.SobelFilter(ccGreen, CBAddToOriginal.Checked);
-        RGB.SobelFilter(ccBlue, CBAddToOriginal.Checked);
-      end;
-    10:
-      begin
-        RGB.SharrFilter(ccRed, CBAddToOriginal.Checked);
-        RGB.SharrFilter(ccGreen, CBAddToOriginal.Checked);
-        RGB.SharrFilter(ccBlue, CBAddToOriginal.Checked);
-      end;
-    11:
-      begin
-        RGB.LaplaceFilter(ccRed, CBAddToOriginal.Checked);
-        RGB.LaplaceFilter(ccGreen, CBAddToOriginal.Checked);
-        RGB.LaplaceFilter(ccBlue, CBAddToOriginal.Checked);
-      end;
+  0:
+    begin
+      RGB.AVGFilter(ccRed, FilterH, FilterW);
+      RGB.AVGFilter(ccGreen, FilterH, FilterW);
+      RGB.AVGFilter(ccBlue, FilterH, FilterW);
+    end;
+  1:
+    begin
+      RGB.WeightedAVGFilter(ccRed, FilterH, FilterW);
+      RGB.WeightedAVGFilter(ccGreen, FilterH, FilterW);
+      RGB.WeightedAVGFilter(ccBlue, FilterH, FilterW);
+    end;
+  2:
+    begin
+      RGB.GeometricMeanFilter(ccRed, FilterH, FilterW);
+      RGB.GeometricMeanFilter(ccGreen, FilterH, FilterW);
+      RGB.GeometricMeanFilter(ccBlue, FilterH, FilterW);
+    end;
+  3:
+    begin
+      RGB.MedianFilter(ccRed, FilterH, FilterW);
+      RGB.MedianFilter(ccGreen, FilterH, FilterW);
+      RGB.MedianFilter(ccBlue, FilterH, FilterW);
+    end;
+  4:
+    begin
+      RGB.MaxFilter(ccRed, FilterH, FilterW);
+      RGB.MaxFilter(ccGreen, FilterH, FilterW);
+      RGB.MaxFilter(ccBlue, FilterH, FilterW);
+    end;
+  5:
+    begin
+      RGB.MinFilter(ccRed, FilterH, FilterW);
+      RGB.MinFilter(ccGreen, FilterH, FilterW);
+      RGB.MinFilter(ccBlue, FilterH, FilterW);
+    end;
+  6:
+    begin
+      RGB.MiddlePointFilter(ccRed, FilterH, FilterW);
+      RGB.MiddlePointFilter(ccGreen, FilterH, FilterW);
+      RGB.MiddlePointFilter(ccBlue, FilterH, FilterW);
+    end;
+  7:
+    begin
+      RGB.TruncatedAVGFilter(ccRed, FilterH, FilterW, StrToInt(LEFilterD.Text));
+      RGB.TruncatedAVGFilter(ccGreen, FilterH, FilterW, StrToInt(LEFilterD.Text));
+      RGB.TruncatedAVGFilter(ccBlue, FilterH, FilterW, StrToInt(LEFilterD.Text));
+    end;
+  8:
+    begin
+      RGB.PrevittFilter(ccRed, CBAddToOriginal.Checked);
+      RGB.PrevittFilter(ccGreen, CBAddToOriginal.Checked);
+      RGB.PrevittFilter(ccBlue, CBAddToOriginal.Checked);
+    end;
+  9:
+    begin
+      RGB.SobelFilter(ccRed, CBAddToOriginal.Checked);
+      RGB.SobelFilter(ccGreen, CBAddToOriginal.Checked);
+      RGB.SobelFilter(ccBlue, CBAddToOriginal.Checked);
+    end;
+  10:
+    begin
+      RGB.SharrFilter(ccRed, CBAddToOriginal.Checked);
+      RGB.SharrFilter(ccGreen, CBAddToOriginal.Checked);
+      RGB.SharrFilter(ccBlue, CBAddToOriginal.Checked);
+    end;
+  11:
+    begin
+      RGB.LaplaceFilter(ccRed, CBAddToOriginal.Checked);
+      RGB.LaplaceFilter(ccGreen, CBAddToOriginal.Checked);
+      RGB.LaplaceFilter(ccBlue, CBAddToOriginal.Checked);
+    end;
   end;
-  IOut.Picture.Assign(RGB.SaveToBitMap);
-  RGB.Free;
+  BM := RGB.SaveToBitMap;
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  RGB.FreeColorImage;
 
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
-procedure TFMain.BLinearClick(Sender: TObject);
+procedure TFFilter.BLinearClick(Sender: TObject);
 var
   RGB: TCColorImage;
+  BM: Tbitmap;
   k, B: double;
 begin
   StartFiltration;
@@ -203,15 +208,18 @@ begin
   RGB.LinearTransform(ccRed, k, B);
   RGB.LinearTransform(ccGreen, k, B);
   RGB.LinearTransform(ccBlue, k, B);
-  IOut.Picture.Assign(RGB.SaveToBitMap);
-  RGB.Free;
+  BM := RGB.SaveToBitMap;
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  RGB.FreeColorImage;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
-procedure TFMain.BLogClick(Sender: TObject);
+procedure TFFilter.BLogClick(Sender: TObject);
 var
   c: double;
   RGB: TCColorImage;
+  BM: Tbitmap;
 begin
   StartFiltration;
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
@@ -219,15 +227,18 @@ begin
   RGB.LogTransform(ccRed, c);
   RGB.LogTransform(ccGreen, c);
   RGB.LogTransform(ccBlue, c);
-  IOut.Picture.Assign(RGB.SaveToBitMap);
-  RGB.Free;
+  BM := RGB.SaveToBitMap;
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  RGB.FreeColorImage;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
-procedure TFMain.BGammaClick(Sender: TObject);
+procedure TFFilter.BGammaClick(Sender: TObject);
 var
   c, gamma: double;
   RGB: TCColorImage;
+  BM: Tbitmap;
 begin
   StartFiltration;
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
@@ -236,48 +247,56 @@ begin
   RGB.GammaTransform(ccRed, c, gamma);
   RGB.GammaTransform(ccGreen, c, gamma);
   RGB.GammaTransform(ccBlue, c, gamma);
-  IOut.Picture.Assign(RGB.SaveToBitMap);
-  RGB.Free;
+  BM := RGB.SaveToBitMap;
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  RGB.FreeColorImage;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
-procedure TFMain.BConvertToGreyscaleClick(Sender: TObject);
+procedure TFFilter.BConvertToGrayscaleClick(Sender: TObject);
 var
   GS: TCGrayscaleImage;
+  BM: Tbitmap;
 begin
   StartFiltration;
   GS := TCGrayscaleImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
-  IOut.Picture.Assign(GS.SaveToBitMap);
-  GS.Free;
+  BM := GS.SaveToBitMap;
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  GS.FreeGrayscaleImage;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
-procedure TFMain.BHistogramEqualizationClick(Sender: TObject);
+procedure TFFilter.BHistogramEqualizationClick(Sender: TObject);
 var
   RGB: TCColorImage;
+  BM: Tbitmap;
 begin
   StartFiltration;
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   RGB.HistogramEqualization(ccRed);
   RGB.HistogramEqualization(ccGreen);
   RGB.HistogramEqualization(ccBlue);
-  IOut.Picture.Assign(RGB.SaveToBitMap);
+  BM := RGB.SaveToBitMap;
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  RGB.FreeColorImage;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
-procedure TFMain.FormActivate(Sender: TObject);
+procedure TFFilter.FormActivate(Sender: TObject);
 begin
   IIn.Canvas.Rectangle(1, 1, IIn.Width, IIn.Height);
   IOut.Canvas.Rectangle(1, 1, IOut.Width, IOut.Height);
 end;
 
-procedure TFMain.FormCanResize(Sender: TObject;
-  var NewWidth, NewHeight: Integer; var Resize: Boolean);
+procedure TFFilter.FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer; var Resize: Boolean);
 begin
   Resize := false;
 end;
 
-procedure TFMain.IInDblClick(Sender: TObject);
+procedure TFFilter.IInDblClick(Sender: TObject);
 begin
   if OPD.Execute then
   begin
@@ -287,22 +306,21 @@ begin
   end;
 end;
 
-procedure TFMain.IOutDblClick(Sender: TObject);
+procedure TFFilter.IOutDblClick(Sender: TObject);
 begin
   IIn.Picture.Assign(IOut.Picture.Bitmap);
   if PCOperations.TabIndex = 2 then
     GetHistogram;
 end;
 
-procedure TFMain.IOutMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TFFilter.IOutMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   if ssCtrl in Shift then
     if SPD.Execute then
       IOut.Picture.SaveToFile(SPD.FileName);
 end;
 
-procedure TFMain.LEFilterMChange(Sender: TObject);
+procedure TFFilter.LEFilterMChange(Sender: TObject);
 var
   FilterN, FilterM: word;
 begin
@@ -314,7 +332,7 @@ begin
   UDFilterD.Max := (FilterN * FilterM - 1) div 2;
 end;
 
-procedure TFMain.LEFilterNChange(Sender: TObject);
+procedure TFFilter.LEFilterNChange(Sender: TObject);
 begin
   FilterH := StrToInt(LEFilterN.Text);
   FilterW := StrToInt(LEFilterM.Text);
@@ -322,7 +340,7 @@ begin
   UDFilterD.Max := ((2 * FilterH + 1) * (2 * FilterW + 1) - 1) div 2;
 end;
 
-procedure TFMain.RGFilterSelectClick(Sender: TObject);
+procedure TFFilter.RGFilterSelectClick(Sender: TObject);
 begin
   LEFilterN.Visible := true;
   UDFilterN.Visible := true;
@@ -346,7 +364,7 @@ begin
   end;
 end;
 
-procedure TFMain.TSHistogramShow(Sender: TObject);
+procedure TFFilter.TSHistogramShow(Sender: TObject);
 begin
   GetHistogram;
 end;

@@ -1,19 +1,21 @@
 program PFilter;
-
+
 uses
   Vcl.Forms,
-  UFMain in 'UFMain.pas' {FMain},
-  UColorImages in '..\..\ImgSharedUnits\src\UColorImages.pas',
-  UGrayscaleImages in '..\..\ImgSharedUnits\src\UGrayscaleImages.pas',
-  UPixelConvert in '..\..\ImgSharedUnits\src\UPixelConvert.pas',
-  UFileConvert in '..\..\ImgSharedUnits\src\UFileConvert.pas';
+  UColorImages in 'D:\ImgSharedUnits\src\UColorImages.pas',
+  UGrayscaleImages in 'D:\ImgSharedUnits\src\UGrayscaleImages.pas',
+  UPixelConvert in 'D:\ImgSharedUnits\src\UPixelConvert.pas',
+  UFileConvert in 'D:\ImgSharedUnits\src\UFileConvert.pas',
+  UFFilter in 'UFFilter.pas' {FFilter};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TFMain, FMain);
+  Application.CreateForm(TFFilter, FFilter);
+  Application.CreateForm(TFFilter, FFilter);
   Application.Run;
 
 end.
+

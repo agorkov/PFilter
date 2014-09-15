@@ -1,7 +1,7 @@
-object FMain: TFMain
+object FFilter: TFFilter
   Left = 0
   Top = 0
-  Caption = #1043#1086#1088#1100#1082#1086#1074' '#1040'. - '#1060#1080#1083#1100#1090#1088#1072#1094#1080#1103
+  Caption = #1043#1086#1088#1100#1082#1086#1074' '#1040'. - '#1060#1080#1083#1100#1090#1088#1072#1094#1080#1103' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1081
   ClientHeight = 517
   ClientWidth = 1356
   Color = clBtnFace
@@ -304,14 +304,14 @@ object FMain: TFMain
           Text = '0,5'
         end
       end
-      object BConvertToGreyscale: TButton
+      object BConvertToGrayscale: TButton
         Left = 16
         Top = 223
         Width = 289
         Height = 25
         Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100' '#1074' '#1075#1088#1072#1076#1072#1094#1080#1080' '#1089#1077#1088#1086#1075#1086
         TabOrder = 3
-        OnClick = BConvertToGreyscaleClick
+        OnClick = BConvertToGrayscaleClick
       end
     end
     object TSHistogram: TTabSheet
