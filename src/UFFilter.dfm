@@ -70,6 +70,7 @@ object FFilter: TFFilter
     Proportional = True
     Stretch = True
     OnDblClick = IInDblClick
+    OnMouseDown = IInMouseDown
   end
   object PCOperations: TPageControl
     Left = 511

@@ -2,11 +2,11 @@ program PFilter;
 
 uses
   Vcl.Forms,
-  UColorImages in 'D:\ImgSharedUnits\src\UColorImages.pas',
-  UGrayscaleImages in 'D:\ImgSharedUnits\src\UGrayscaleImages.pas',
-  UPixelConvert in 'D:\ImgSharedUnits\src\UPixelConvert.pas',
-  UFileConvert in 'D:\ImgSharedUnits\src\UFileConvert.pas',
-  UFFilter in 'UFFilter.pas' {FFilter};
+  UFFilter in 'UFFilter.pas' {FFilter},
+  UColorImages in '..\..\ImgSharedUnits\src\UColorImages.pas',
+  UFileConvert in '..\..\ImgSharedUnits\src\UFileConvert.pas',
+  UGrayscaleImages in '..\..\ImgSharedUnits\src\UGrayscaleImages.pas',
+  UPixelConvert in '..\..\ImgSharedUnits\src\UPixelConvert.pas';
 
 {$R *.res}
 
