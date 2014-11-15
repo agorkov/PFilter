@@ -457,12 +457,20 @@ begin
 end;
 
 procedure TFFilter.IInDblClick(Sender: TObject);
+var
+  BM: Tbitmap;
 begin
+  OPD.Filter := 'All supported|' + UFileConvert.SUPPORTED_FORMATS;
   if OPD.Execute then
   begin
-    IIn.Picture.Assign(UFileConvert.LoadFile(OPD.FileName));
-    if PCOperations.TabIndex = 2 then
-      GetHistogram;
+    BM := UFileConvert.LoadFromFile(OPD.FileName);
+    try
+      IIn.Picture.Assign(BM);
+      if PCOperations.TabIndex = 2 then
+        GetHistogram;
+    finally
+      BM.Free;
+    end;
   end;
 end;
 
@@ -473,10 +481,21 @@ procedure TFFilter.IInMouseDown(
   X, Y: Integer);
 var
   tmpFileName: string;
+  BM: Tbitmap;
 begin
   if ssShift in Shift then
+  begin
+    SPD.Filter := 'All supported|' + UFileConvert.SUPPORTED_FORMATS;
     if SPD.Execute then
-      IIn.Picture.SaveToFile(SPD.FileName);
+    begin
+      BM := Tbitmap.Create;
+      BM.Assign(IIn.Picture);
+      UFileConvert.SaveToFile(
+        BM,
+        SPD.FileName);
+      BM.Free;
+    end;
+  end;
   if ssCtrl in Shift then
   begin
     tmpFileName := GetWinPath('%Temp%') + '\' + 'Filter_tmp.bmp';
@@ -505,10 +524,21 @@ procedure TFFilter.IOutMouseDown(
   X, Y: Integer);
 var
   tmpFileName: string;
+  BM: Tbitmap;
 begin
   if ssShift in Shift then
+  begin
+    SPD.Filter := 'All supported|' + UFileConvert.SUPPORTED_FORMATS;
     if SPD.Execute then
-      IOut.Picture.SaveToFile(SPD.FileName);
+    begin
+      BM := Tbitmap.Create;
+      BM.Assign(IOut.Picture);
+      UFileConvert.SaveToFile(
+        BM,
+        SPD.FileName);
+      BM.Free;
+    end;
+  end;
   if ssCtrl in Shift then
   begin
     tmpFileName := GetWinPath('%Temp%') + '\' + 'Filter_tmp.bmp';
