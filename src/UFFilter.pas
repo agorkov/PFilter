@@ -17,7 +17,6 @@ type
     UDFilterN: TUpDown;
     UDFilterM: TUpDown;
     LEFilterM: TLabeledEdit;
-    LTime: TLabel;
     LEFilterD: TLabeledEdit;
     UDFilterD: TUpDown;
     CBAddToOriginal: TCheckBox;
@@ -122,7 +121,6 @@ begin
   IHistB.Picture.Assign(BM);
   BM.Free;
   RGBI.FreeColorImage;
-  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
 procedure TFFilter.BFilterClick(Sender: TObject);
@@ -309,8 +307,6 @@ begin
   IOut.Picture.Assign(BM);
   BM.Free;
   RGB.FreeColorImage;
-
-  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
 procedure TFFilter.BLinearClick(Sender: TObject);
@@ -338,7 +334,6 @@ begin
   IOut.Picture.Assign(BM);
   BM.Free;
   RGB.FreeColorImage;
-  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
 procedure TFFilter.BLogClick(Sender: TObject);
@@ -362,7 +357,6 @@ begin
   IOut.Picture.Assign(BM);
   BM.Free;
   RGB.FreeColorImage;
-  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
 procedure TFFilter.BGammaClick(Sender: TObject);
@@ -390,7 +384,6 @@ begin
   IOut.Picture.Assign(BM);
   BM.Free;
   RGB.FreeColorImage;
-  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
 procedure TFFilter.BConvertToBinaryClick(Sender: TObject);
@@ -406,7 +399,6 @@ begin
   BM.Free;
   GS.FreeGrayscaleImage;
   BI.FreeBinaryImage;
-  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
 procedure TFFilter.BConvertToGrayscaleClick(Sender: TObject);
@@ -419,7 +411,6 @@ begin
   IOut.Picture.Assign(BM);
   BM.Free;
   GS.FreeGrayscaleImage;
-  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
 procedure TFFilter.BHistogramEqualizationClick(Sender: TObject);
@@ -435,7 +426,6 @@ begin
   IOut.Picture.Assign(BM);
   BM.Free;
   RGB.FreeColorImage;
-  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 
 procedure TFFilter.FormActivate(Sender: TObject);

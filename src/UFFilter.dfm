@@ -54,13 +54,6 @@ object FFilter: TFFilter
     OnDblClick = IOutDblClick
     OnMouseDown = IOutMouseDown
   end
-  object LTime: TLabel
-    Left = 511
-    Top = 457
-    Width = 102
-    Height = 13
-    Caption = #1042#1088#1077#1084#1103' '#1092#1080#1083#1100#1090#1088#1072#1094#1080#1080': '
-  end
   object IIn: TImage
     Left = 8
     Top = 8
@@ -77,15 +70,15 @@ object FFilter: TFFilter
     Top = 8
     Width = 331
     Height = 433
-    ActivePage = TSGradation
+    ActivePage = TSFilter
     TabOrder = 0
     object TSFilter: TTabSheet
       Caption = #1060#1080#1083#1100#1090#1088#1099
       ExplicitHeight = 319
       object GBFilterParams: TGroupBox
-        Left = 31
+        Left = 16
         Top = 15
-        Width = 264
+        Width = 289
         Height = 65
         Caption = #1040#1087#1077#1088#1090#1091#1088#1072' '#1092#1080#1083#1100#1090#1088#1072
         TabOrder = 0
@@ -111,7 +104,7 @@ object FFilter: TFFilter
           TabOrder = 1
         end
         object UDFilterM: TUpDown
-          Left = 133
+          Left = 149
           Top = 35
           Width = 16
           Height = 21
@@ -120,7 +113,7 @@ object FFilter: TFFilter
           TabOrder = 2
         end
         object LEFilterM: TLabeledEdit
-          Left = 103
+          Left = 119
           Top = 35
           Width = 30
           Height = 21
@@ -132,7 +125,7 @@ object FFilter: TFFilter
           OnChange = LEFilterMChange
         end
         object LEFilterD: TLabeledEdit
-          Left = 195
+          Left = 219
           Top = 35
           Width = 30
           Height = 21
@@ -144,7 +137,7 @@ object FFilter: TFFilter
           Visible = False
         end
         object UDFilterD: TUpDown
-          Left = 225
+          Left = 249
           Top = 35
           Width = 16
           Height = 21
@@ -154,7 +147,7 @@ object FFilter: TFFilter
           Visible = False
         end
         object CBAddToOriginal: TCheckBox
-          Left = 75
+          Left = 91
           Top = 23
           Width = 122
           Height = 31
@@ -165,10 +158,10 @@ object FFilter: TFFilter
         end
       end
       object RGFilterSelect: TRadioGroup
-        Left = 31
+        Left = 16
         Top = 86
-        Width = 264
-        Height = 185
+        Width = 289
+        Height = 285
         Caption = #1042#1099#1073#1086#1088' '#1092#1080#1083#1100#1090#1088#1072':'
         ItemIndex = 0
         Items.Strings = (
@@ -188,9 +181,9 @@ object FFilter: TFFilter
         OnClick = RGFilterSelectClick
       end
       object BFilter: TButton
-        Left = 31
-        Top = 277
-        Width = 264
+        Left = 16
+        Top = 377
+        Width = 289
         Height = 25
         Caption = #1042#1099#1087#1086#1083#1085#1080#1090#1100' '#1092#1080#1083#1100#1090#1088#1072#1094#1080#1102
         TabOrder = 2
