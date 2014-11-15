@@ -42,6 +42,9 @@ type
     IHistR: TImage;
     IHistG: TImage;
     IHistB: TImage;
+    BConvertToBinary: TButton;
+    GBBinarization: TGroupBox;
+    TrackBar1: TTrackBar;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -71,6 +74,7 @@ type
       X, Y: Integer);
     procedure GetHistogram;
     procedure StartFiltration;
+    procedure BConvertToBinaryClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -85,7 +89,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Math, JPEG, UColorImages, UGrayscaleImages, UPixelConvert, UFileConvert, ShellAPI;
+  Math, JPEG, UColorImages, UGrayscaleImages, UPixelConvert, UFileConvert, UBinaryImages, ShellAPI;
 
 var
   TStart: TDateTime;
@@ -400,6 +404,23 @@ begin
   IOut.Picture.Assign(BM);
   BM.Free;
   RGB.FreeColorImage;
+  LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
+end;
+
+procedure TFFilter.BConvertToBinaryClick(Sender: TObject);
+var
+  GS: TCGrayscaleImage;
+  BI: TCBinaryImage;
+  BM: Tbitmap;
+begin
+  StartFiltration;
+  GS := TCGrayscaleImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
+  BI := GS.ThresoldBinarization(TrackBar1.Position / 100);
+  BM := BI.SaveToBitMap;
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  GS.FreeGrayscaleImage;
+  BI.FreeBinaryImage;
   LTime.Caption := 'Время фильтрации: ' + TimeToStr(Now - TStart);
 end;
 

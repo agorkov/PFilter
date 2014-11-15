@@ -6,7 +6,8 @@ uses
   UColorImages in '..\..\ImgSharedUnits\src\UColorImages.pas',
   UFileConvert in '..\..\ImgSharedUnits\src\UFileConvert.pas',
   UGrayscaleImages in '..\..\ImgSharedUnits\src\UGrayscaleImages.pas',
-  UPixelConvert in '..\..\ImgSharedUnits\src\UPixelConvert.pas';
+  UPixelConvert in '..\..\ImgSharedUnits\src\UPixelConvert.pas',
+  UBinaryImages in '..\..\ImgSharedUnits\src\UBinaryImages.pas';
 
 {$R *.res}
 

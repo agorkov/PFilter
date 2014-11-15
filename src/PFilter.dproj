@@ -98,6 +98,7 @@
 			<DCCReference Include="..\..\ImgSharedUnits\src\UFileConvert.pas"/>
 			<DCCReference Include="..\..\ImgSharedUnits\src\UGrayscaleImages.pas"/>
 			<DCCReference Include="..\..\ImgSharedUnits\src\UPixelConvert.pas"/>
+			<DCCReference Include="..\..\ImgSharedUnits\src\UBinaryImages.pas"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>

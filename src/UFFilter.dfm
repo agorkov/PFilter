@@ -56,7 +56,7 @@ object FFilter: TFFilter
   end
   object LTime: TLabel
     Left = 511
-    Top = 361
+    Top = 457
     Width = 102
     Height = 13
     Caption = #1042#1088#1077#1084#1103' '#1092#1080#1083#1100#1090#1088#1072#1094#1080#1080': '
@@ -76,11 +76,12 @@ object FFilter: TFFilter
     Left = 511
     Top = 8
     Width = 331
-    Height = 347
-    ActivePage = TSFilter
+    Height = 433
+    ActivePage = TSGradation
     TabOrder = 0
     object TSFilter: TTabSheet
       Caption = #1060#1080#1083#1100#1090#1088#1099
+      ExplicitHeight = 319
       object GBFilterParams: TGroupBox
         Left = 31
         Top = 15
@@ -199,6 +200,7 @@ object FFilter: TFFilter
     object TSGradation: TTabSheet
       Caption = #1043#1088#1072#1076#1072#1094#1080#1086#1085#1085#1099#1077' '#1087#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1085#1080#1103
       ImageIndex = 1
+      ExplicitLeft = 0
       object GBLinear: TGroupBox
         Left = 18
         Top = 13
@@ -314,11 +316,38 @@ object FFilter: TFFilter
         TabOrder = 3
         OnClick = BConvertToGrayscaleClick
       end
+      object GBBinarization: TGroupBox
+        Left = 16
+        Top = 254
+        Width = 289
+        Height = 139
+        Caption = #1041#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103
+        TabOrder = 4
+        object BConvertToBinary: TButton
+          Left = 11
+          Top = 101
+          Width = 270
+          Height = 25
+          Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100' '#1074' '#1073#1080#1085#1072#1088#1085#1086#1077
+          TabOrder = 0
+          OnClick = BConvertToBinaryClick
+        end
+        object TrackBar1: TTrackBar
+          Left = 11
+          Top = 72
+          Width = 270
+          Height = 23
+          Max = 100
+          Position = 50
+          TabOrder = 1
+        end
+      end
     end
     object TSHistogram: TTabSheet
       Caption = #1043#1080#1089#1090#1086#1075#1088#1072#1084#1084#1099
       ImageIndex = 2
       OnShow = TSHistogramShow
+      ExplicitHeight = 319
       object IHistR: TImage
         Left = 3
         Top = 54
