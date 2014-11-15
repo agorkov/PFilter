@@ -73,7 +73,6 @@ type
       Shift: TShiftState;
       X, Y: Integer);
     procedure GetHistogram;
-    procedure StartFiltration;
     procedure BConvertToBinaryClick(Sender: TObject);
   private
     { Private declarations }
@@ -107,19 +106,11 @@ begin
   Result := P;
 end;
 
-procedure TFFilter.StartFiltration;
-begin
-  TStart := Now;
-  LTime.Caption := 'Выполняется фильтрация...';
-  FFilter.Repaint;
-end;
-
 procedure TFFilter.GetHistogram;
 var
   RGBI: TCColorImage;
   BM: Tbitmap;
 begin
-  StartFiltration;
   RGBI := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   BM := RGBI.Histogram(ccRed);
   IHistR.Picture.Assign(BM);
@@ -139,8 +130,6 @@ var
   RGB: TCColorImage;
   BM: Tbitmap;
 begin
-  StartFiltration;
-
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
 
   case RGFilterSelect.ItemIndex of
@@ -330,7 +319,6 @@ var
   BM: Tbitmap;
   k, B: double;
 begin
-  StartFiltration;
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   k := strtofloat(LELinearK.Text);
   B := strtofloat(LELinearb.Text);
@@ -359,7 +347,6 @@ var
   RGB: TCColorImage;
   BM: Tbitmap;
 begin
-  StartFiltration;
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   c := strtofloat(LELogC.Text);
   RGB.LogTransform(
@@ -384,7 +371,6 @@ var
   RGB: TCColorImage;
   BM: Tbitmap;
 begin
-  StartFiltration;
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   c := strtofloat(LEGammaC.Text);
   gamma := strtofloat(LEGammaGamma.Text);
@@ -413,7 +399,6 @@ var
   BI: TCBinaryImage;
   BM: Tbitmap;
 begin
-  StartFiltration;
   GS := TCGrayscaleImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   BI := GS.ThresoldBinarization(TrackBar1.Position / 100);
   BM := BI.SaveToBitMap;
@@ -429,7 +414,6 @@ var
   GS: TCGrayscaleImage;
   BM: Tbitmap;
 begin
-  StartFiltration;
   GS := TCGrayscaleImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   BM := GS.SaveToBitMap;
   IOut.Picture.Assign(BM);
@@ -443,7 +427,6 @@ var
   RGB: TCColorImage;
   BM: Tbitmap;
 begin
-  StartFiltration;
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   RGB.HistogramEqualization(ccRed);
   RGB.HistogramEqualization(ccGreen);
