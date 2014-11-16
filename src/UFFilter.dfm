@@ -70,7 +70,7 @@ object FFilter: TFFilter
     Top = 8
     Width = 331
     Height = 501
-    ActivePage = TSGradation
+    ActivePage = TSFilter
     TabOrder = 0
     object TSFilter: TTabSheet
       Caption = #1060#1080#1083#1100#1090#1088#1099
@@ -307,110 +307,137 @@ object FFilter: TFFilter
         TabOrder = 3
         OnClick = BConvertToGrayscaleClick
       end
-      object PCBinarizatoin: TPageControl
-        Left = 16
+      object GBBinarization: TGroupBox
+        Left = 7
         Top = 254
-        Width = 289
-        Height = 193
-        ActivePage = TSBernsenBinarization
+        Width = 306
+        Height = 199
+        Caption = #1041#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103
         TabOrder = 4
-        object TSThresoldBinarization: TTabSheet
-          Caption = #1055#1086#1088#1086#1075#1086#1074#1072#1103' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103
-          object LThresoldBinarization: TLabel
-            Left = 3
-            Top = 8
-            Width = 102
-            Height = 13
-            Caption = #1055#1086#1088#1086#1075' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1080':'
+        object PCBinarizatoin: TPageControl
+          Left = 11
+          Top = 20
+          Width = 289
+          Height = 113
+          ActivePage = TSThresoldBinarization
+          MultiLine = True
+          TabOrder = 0
+          TabPosition = tpBottom
+          object TSThresoldBinarization: TTabSheet
+            Caption = #1055#1086#1088#1086#1075#1086#1074#1072#1103' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103
+            object LThresoldBinarization: TLabel
+              Left = 3
+              Top = 10
+              Width = 102
+              Height = 13
+              Caption = #1055#1086#1088#1086#1075' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1080':'
+            end
+            object TBBinarizationThresold: TTrackBar
+              Left = 3
+              Top = 29
+              Width = 275
+              Height = 23
+              Max = 100
+              Position = 50
+              TabOrder = 0
+            end
           end
-          object TBBinarizationThresold: TTrackBar
-            Left = 3
-            Top = 27
-            Width = 275
-            Height = 23
-            Max = 100
-            Position = 50
-            TabOrder = 0
+          object TSBernsenBinarization: TTabSheet
+            Caption = #1041#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103' '#1041#1077#1088#1085#1089#1077#1085#1072
+            ImageIndex = 1
+            object Label1: TLabel
+              Left = 80
+              Top = 10
+              Width = 90
+              Height = 13
+              Caption = #1055#1086#1088#1086#1075' '#1082#1086#1085#1090#1088#1072#1089#1090#1072':'
+            end
+            object LEBersenR: TLabeledEdit
+              Left = 3
+              Top = 24
+              Width = 46
+              Height = 21
+              EditLabel.Width = 66
+              EditLabel.Height = 13
+              EditLabel.Caption = #1056#1072#1079#1084#1077#1088' '#1086#1082#1085#1072':'
+              TabOrder = 0
+              Text = '1'
+            end
+            object UDBersenR: TUpDown
+              Left = 49
+              Top = 24
+              Width = 16
+              Height = 21
+              Associate = LEBersenR
+              Min = 1
+              Position = 1
+              TabOrder = 1
+            end
+            object TBBersenContrastThresold: TTrackBar
+              Left = 71
+              Top = 26
+              Width = 207
+              Height = 23
+              Max = 100
+              Position = 15
+              TabOrder = 2
+            end
           end
-          object BConvertToBinary: TButton
-            Left = 3
-            Top = 137
-            Width = 275
-            Height = 25
-            Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100' '#1074' '#1073#1080#1085#1072#1088#1085#1086#1077
-            TabOrder = 1
-            OnClick = BConvertToBinaryClick
-          end
-          object CBInvertResult: TCheckBox
-            Left = 3
-            Top = 114
-            Width = 150
-            Height = 17
-            Caption = #1048#1085#1074#1077#1088#1090#1080#1088#1086#1074#1072#1090#1100' '#1088#1077#1079#1091#1083#1100#1090#1072#1090
-            TabOrder = 2
-          end
-          object TBBinarizationSecondThresold: TTrackBar
-            Left = 3
-            Top = 83
-            Width = 275
-            Height = 23
-            Enabled = False
-            Max = 100
-            Position = 50
-            TabOrder = 3
-          end
-          object CBUseSecondThresold: TCheckBox
-            Left = 3
-            Top = 60
-            Width = 238
-            Height = 17
-            Caption = #1048#1089#1087#1086#1083#1100#1079#1086#1074#1072#1090#1100' '#1080#1085#1090#1077#1088#1074#1072#1083#1100#1085#1091#1102' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1102
-            TabOrder = 4
-            OnClick = CBUseSecondThresoldClick
+          object TSThresoldIntervalBinarization: TTabSheet
+            Caption = #1055#1086#1088#1086#1075#1086#1074#1072#1103' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103' '#1087#1086' '#1080#1085#1090#1077#1088#1074#1072#1083#1091
+            ImageIndex = 2
+            object Label2: TLabel
+              Left = 3
+              Top = 7
+              Width = 75
+              Height = 13
+              Caption = #1053#1080#1078#1085#1080#1081' '#1087#1086#1088#1086#1075':'
+            end
+            object Label3: TLabel
+              Left = 160
+              Top = 7
+              Width = 78
+              Height = 13
+              Caption = #1042#1077#1088#1093#1085#1080#1081' '#1087#1086#1088#1086#1075':'
+            end
+            object TBThresoldDown: TTrackBar
+              Left = 3
+              Top = 26
+              Width = 118
+              Height = 23
+              Max = 100
+              Position = 30
+              TabOrder = 0
+              OnChange = TBThresoldDownChange
+            end
+            object TBThresoldUp: TTrackBar
+              Left = 160
+              Top = 26
+              Width = 118
+              Height = 23
+              Max = 100
+              Position = 50
+              TabOrder = 1
+              OnChange = TBThresoldUpChange
+            end
           end
         end
-        object TSBernsenBinarization: TTabSheet
-          Caption = #1041#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103' '#1041#1077#1088#1085#1089#1077#1085#1072
-          ImageIndex = 1
-          object BBernsenBinarization: TButton
-            Left = 3
-            Top = 137
-            Width = 275
-            Height = 25
-            Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100' '#1074' '#1073#1080#1085#1072#1088#1085#1086#1077
-            TabOrder = 0
-            OnClick = BBernsenBinarizationClick
-          end
-          object LEBersenR: TLabeledEdit
-            Left = 3
-            Top = 32
-            Width = 46
-            Height = 21
-            EditLabel.Width = 66
-            EditLabel.Height = 13
-            EditLabel.Caption = #1056#1072#1079#1084#1077#1088' '#1086#1082#1085#1072':'
-            TabOrder = 1
-            Text = '1'
-          end
-          object UpDown1: TUpDown
-            Left = 49
-            Top = 32
-            Width = 16
-            Height = 21
-            Associate = LEBersenR
-            Min = 1
-            Position = 1
-            TabOrder = 2
-          end
-          object TBBersenContrastThresold: TTrackBar
-            Left = 3
-            Top = 67
-            Width = 275
-            Height = 23
-            Max = 100
-            Position = 15
-            TabOrder = 3
-          end
+        object CBInvertResult: TCheckBox
+          Left = 11
+          Top = 139
+          Width = 289
+          Height = 17
+          Caption = #1048#1085#1074#1077#1088#1090#1080#1088#1086#1074#1072#1090#1100' '#1088#1077#1079#1091#1083#1100#1090#1072#1090
+          TabOrder = 1
+        end
+        object BConvertToBinary: TButton
+          Left = 11
+          Top = 157
+          Width = 289
+          Height = 25
+          Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100' '#1074' '#1073#1080#1085#1072#1088#1085#1086#1077
+          TabOrder = 2
+          OnClick = BConvertToBinaryClick
         end
       end
     end

@@ -41,19 +41,23 @@ type
     IHistR: TImage;
     IHistG: TImage;
     IHistB: TImage;
-    BConvertToBinary: TButton;
-    TBBinarizationThresold: TTrackBar;
+    GBBinarization: TGroupBox;
     PCBinarizatoin: TPageControl;
     TSThresoldBinarization: TTabSheet;
     LThresoldBinarization: TLabel;
-    CBInvertResult: TCheckBox;
-    TBBinarizationSecondThresold: TTrackBar;
-    CBUseSecondThresold: TCheckBox;
+    TBBinarizationThresold: TTrackBar;
     TSBernsenBinarization: TTabSheet;
-    BBernsenBinarization: TButton;
     LEBersenR: TLabeledEdit;
-    UpDown1: TUpDown;
+    UDBersenR: TUpDown;
     TBBersenContrastThresold: TTrackBar;
+    TSThresoldIntervalBinarization: TTabSheet;
+    CBInvertResult: TCheckBox;
+    BConvertToBinary: TButton;
+    Label1: TLabel;
+    TBThresoldDown: TTrackBar;
+    Label2: TLabel;
+    Label3: TLabel;
+    TBThresoldUp: TTrackBar;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -83,8 +87,8 @@ type
       X, Y: Integer);
     procedure GetHistogram;
     procedure BConvertToBinaryClick(Sender: TObject);
-    procedure CBUseSecondThresoldClick(Sender: TObject);
-    procedure BBernsenBinarizationClick(Sender: TObject);
+    procedure TBThresoldUpChange(Sender: TObject);
+    procedure TBThresoldDownChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -370,11 +374,6 @@ begin
   RGB.FreeColorImage;
 end;
 
-procedure TFFilter.CBUseSecondThresoldClick(Sender: TObject);
-begin
-  TBBinarizationSecondThresold.Enabled := CBUseSecondThresold.Checked;
-end;
-
 procedure TFFilter.BGammaClick(Sender: TObject);
 var
   c, gamma: double;
@@ -402,23 +401,6 @@ begin
   RGB.FreeColorImage;
 end;
 
-procedure TFFilter.BBernsenBinarizationClick(Sender: TObject);
-var
-  GS: TCGrayscaleImage;
-  BI: TCBinaryImage;
-  BM: Tbitmap;
-begin
-  GS := TCGrayscaleImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
-  BI := GS.BernsenBinarization(
-    StrToInt(LEBersenR.Text),
-    TBBersenContrastThresold.Position / 100);
-  BM := BI.SaveToBitMap;
-  IOut.Picture.Assign(BM);
-  BM.Free;
-  GS.FreeGrayscaleImage;
-  BI.FreeBinaryImage;
-end;
-
 procedure TFFilter.BConvertToBinaryClick(Sender: TObject);
 var
   GS: TCGrayscaleImage;
@@ -426,19 +408,23 @@ var
   BM: Tbitmap;
 begin
   GS := TCGrayscaleImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
-  if CBUseSecondThresold.Checked then
-    BI := GS.ThresoldInervalBinarization(
-      TBBinarizationThresold.Position / 100,
-      TBBinarizationSecondThresold.Position / 100)
+  case PCBinarizatoin.TabIndex of
+    0:
+      BI := GS.ThresoldBinarization(TBBinarizationThresold.Position / 100);
+    1:
+      BI := GS.BernsenBinarization(StrToInt(LEBersenR.Text), TBBersenContrastThresold.Position / 100);
+    2:
+      BI := GS.ThresoldInervalBinarization(TBThresoldDown.Position / 100, TBThresoldUp.Position / 100);
   else
-    BI := GS.ThresoldBinarization(TBBinarizationThresold.Position / 100);
+    BI := TCBinaryImage.Create;
+  end;
   if CBInvertResult.Checked then
     BI.Invert;
   BM := BI.SaveToBitMap;
   IOut.Picture.Assign(BM);
   BM.Free;
-  GS.FreeGrayscaleImage;
   BI.FreeBinaryImage;
+  GS.FreeGrayscaleImage;
 end;
 
 procedure TFFilter.BConvertToGrayscaleClick(Sender: TObject);
@@ -629,6 +615,18 @@ begin
     LEFilterM.Visible := false;
     UDFilterM.Visible := false;
   end;
+end;
+
+procedure TFFilter.TBThresoldDownChange(Sender: TObject);
+begin
+  if TBThresoldDown.Position > TBThresoldUp.Position then
+    TBThresoldDown.Position := TBThresoldUp.Position - 1;
+end;
+
+procedure TFFilter.TBThresoldUpChange(Sender: TObject);
+begin
+  if TBThresoldUp.Position < TBThresoldDown.Position then
+    TBThresoldUp.Position := TBThresoldDown.Position + 1;
 end;
 
 procedure TFFilter.TSHistogramShow(Sender: TObject);
