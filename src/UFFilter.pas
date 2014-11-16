@@ -42,8 +42,18 @@ type
     IHistG: TImage;
     IHistB: TImage;
     BConvertToBinary: TButton;
-    GBBinarization: TGroupBox;
-    TrackBar1: TTrackBar;
+    TBBinarizationThresold: TTrackBar;
+    PCBinarizatoin: TPageControl;
+    TSThresoldBinarization: TTabSheet;
+    LThresoldBinarization: TLabel;
+    CBInvertResult: TCheckBox;
+    TBBinarizationSecondThresold: TTrackBar;
+    CBUseSecondThresold: TCheckBox;
+    TSBernsenBinarization: TTabSheet;
+    BBernsenBinarization: TButton;
+    LEBersenR: TLabeledEdit;
+    UpDown1: TUpDown;
+    TBBersenContrastThresold: TTrackBar;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -73,6 +83,8 @@ type
       X, Y: Integer);
     procedure GetHistogram;
     procedure BConvertToBinaryClick(Sender: TObject);
+    procedure CBUseSecondThresoldClick(Sender: TObject);
+    procedure BBernsenBinarizationClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -90,7 +102,6 @@ uses
   Math, JPEG, UColorImages, UGrayscaleImages, UPixelConvert, UFileConvert, UBinaryImages, ShellAPI;
 
 var
-  TStart: TDateTime;
   FilterH, FilterW: byte;
 
 function GetWinPath(const Macro: string): string;
@@ -359,6 +370,11 @@ begin
   RGB.FreeColorImage;
 end;
 
+procedure TFFilter.CBUseSecondThresoldClick(Sender: TObject);
+begin
+  TBBinarizationSecondThresold.Enabled := CBUseSecondThresold.Checked;
+end;
+
 procedure TFFilter.BGammaClick(Sender: TObject);
 var
   c, gamma: double;
@@ -386,6 +402,23 @@ begin
   RGB.FreeColorImage;
 end;
 
+procedure TFFilter.BBernsenBinarizationClick(Sender: TObject);
+var
+  GS: TCGrayscaleImage;
+  BI: TCBinaryImage;
+  BM: Tbitmap;
+begin
+  GS := TCGrayscaleImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
+  BI := GS.BernsenBinarization(
+    StrToInt(LEBersenR.Text),
+    TBBersenContrastThresold.Position / 100);
+  BM := BI.SaveToBitMap;
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  GS.FreeGrayscaleImage;
+  BI.FreeBinaryImage;
+end;
+
 procedure TFFilter.BConvertToBinaryClick(Sender: TObject);
 var
   GS: TCGrayscaleImage;
@@ -393,7 +426,14 @@ var
   BM: Tbitmap;
 begin
   GS := TCGrayscaleImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
-  BI := GS.ThresoldBinarization(TrackBar1.Position / 100);
+  if CBUseSecondThresold.Checked then
+    BI := GS.ThresoldInervalBinarization(
+      TBBinarizationThresold.Position / 100,
+      TBBinarizationSecondThresold.Position / 100)
+  else
+    BI := GS.ThresoldBinarization(TBBinarizationThresold.Position / 100);
+  if CBInvertResult.Checked then
+    BI.Invert;
   BM := BI.SaveToBitMap;
   IOut.Picture.Assign(BM);
   BM.Free;
