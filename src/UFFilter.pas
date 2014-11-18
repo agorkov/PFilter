@@ -58,6 +58,7 @@ type
     Label2: TLabel;
     Label3: TLabel;
     TBThresoldUp: TTrackBar;
+    Button1: TButton;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -89,6 +90,7 @@ type
     procedure BConvertToBinaryClick(Sender: TObject);
     procedure TBThresoldUpChange(Sender: TObject);
     procedure TBThresoldDownChange(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -372,6 +374,53 @@ begin
   IOut.Picture.Assign(BM);
   BM.Free;
   RGB.FreeColorImage;
+end;
+
+procedure TFFilter.Button1Click(Sender: TObject);
+var
+  BMOrigin, BMMin: Tbitmap;
+  GSI: TCGrayscaleImage;
+  BI: TCBinaryImage;
+  i, j: word;
+  avg: double;
+  str: string;
+  f: TextFile;
+begin
+  BMOrigin := Tbitmap.Create;
+  BMOrigin.Assign(IIn.Picture);
+  BMMin := Tbitmap.Create;
+  BMMin := Tbitmap.Create;
+  BMMin.Height := 8;
+  BMMin.Width := 8;
+  BMMin.Canvas.StretchDraw(
+    Rect(0, 0, 7, 7),
+    BMOrigin);
+  BMOrigin.Free;
+  GSI := TCGrayscaleImage.CreateandLoadFromBitMap(BMMin);
+  BMMin.Free;
+  avg := 0;
+  for i := 0 to GSI.GetHeight - 1 do
+    for j := 0 to GSI.GetWidth - 1 do
+      avg := avg + GSI.Pixels[i, j];
+  avg := avg / 64;
+  BI := GSI.ThresoldBinarization(avg);
+  GSI.FreeGrayscaleImage;
+  str := '';
+  for i := 0 to BI.GetHeight - 1 do
+    for j := 0 to BI.GetWidth - 1 do
+      if BI.Pixels[i, j] then
+        str := str + '1'
+      else
+        str := str + '0';
+  BI.FreeBinaryImage;
+  AssignFile(
+    f,
+    'Hash.txt');
+  append(f);
+  writeln(
+    f,
+    str);
+  CloseFile(f);
 end;
 
 procedure TFFilter.BGammaClick(Sender: TObject);
