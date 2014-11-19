@@ -2,7 +2,7 @@ object FFilter: TFFilter
   Left = 0
   Top = 0
   Caption = #1043#1086#1088#1100#1082#1086#1074' '#1040'. - '#1060#1080#1083#1100#1090#1088#1072#1094#1080#1103' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1081
-  ClientHeight = 539
+  ClientHeight = 515
   ClientWidth = 1356
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -479,15 +479,6 @@ object FFilter: TFFilter
         OnClick = BHistogramEqualizationClick
       end
     end
-  end
-  object Button1: TButton
-    Left = 8
-    Top = 511
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 1
-    OnClick = Button1Click
   end
   object OPD: TOpenPictureDialog
     Filter = 'All|*.bmp;*.jpg;*.jpeg'
