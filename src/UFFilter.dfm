@@ -2,7 +2,7 @@ object FFilter: TFFilter
   Left = 0
   Top = 0
   Caption = #1043#1086#1088#1100#1082#1086#1074' '#1040'. - '#1060#1080#1083#1100#1090#1088#1072#1094#1080#1103' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1081
-  ClientHeight = 515
+  ClientHeight = 516
   ClientWidth = 1356
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET

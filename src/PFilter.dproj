@@ -95,7 +95,7 @@
 				<Form>FFilter</Form>
 			</DCCReference>
 			<DCCReference Include="..\..\ImgSharedUnits\src\UColorImages.pas"/>
-			<DCCReference Include="..\..\ImgSharedUnits\src\UFileConvert.pas"/>
+			<DCCReference Include="..\..\ImgSharedUnits\src\UBitMapFunctions.pas"/>
 			<DCCReference Include="..\..\ImgSharedUnits\src\UGrayscaleImages.pas"/>
 			<DCCReference Include="..\..\ImgSharedUnits\src\UPixelConvert.pas"/>
 			<DCCReference Include="..\..\ImgSharedUnits\src\UBinaryImages.pas"/>

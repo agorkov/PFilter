@@ -103,7 +103,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Math, JPEG, UColorImages, UGrayscaleImages, UPixelConvert, UFileConvert, UBinaryImages, ShellAPI;
+  Math, JPEG, UColorImages, UGrayscaleImages, UPixelConvert, UBitMapFunctions, UBinaryImages, ShellAPI;
 
 var
   FilterH, FilterW: byte;
@@ -480,10 +480,10 @@ procedure TFFilter.IInDblClick(Sender: TObject);
 var
   BM: Tbitmap;
 begin
-  OPD.Filter := 'All supported|' + UFileConvert.SUPPORTED_FORMATS;
+  OPD.Filter := 'All supported|' + UBitMapFunctions.SUPPORTED_FORMATS;
   if OPD.Execute then
   begin
-    BM := UFileConvert.LoadFromFile(OPD.FileName);
+    BM := UBitMapFunctions.LoadFromFile(OPD.FileName);
     try
       IIn.Picture.Assign(BM);
       if PCOperations.TabIndex = 2 then
@@ -505,12 +505,12 @@ var
 begin
   if ssShift in Shift then
   begin
-    SPD.Filter := 'All supported|' + UFileConvert.SUPPORTED_FORMATS;
+    SPD.Filter := 'All supported|' + UBitMapFunctions.SUPPORTED_FORMATS;
     if SPD.Execute then
     begin
       BM := Tbitmap.Create;
       BM.Assign(IIn.Picture);
-      UFileConvert.SaveToFile(
+      UBitMapFunctions.SaveToFile(
         BM,
         SPD.FileName);
       BM.Free;
@@ -548,12 +548,12 @@ var
 begin
   if ssShift in Shift then
   begin
-    SPD.Filter := 'All supported|' + UFileConvert.SUPPORTED_FORMATS;
+    SPD.Filter := 'All supported|' + UBitMapFunctions.SUPPORTED_FORMATS;
     if SPD.Execute then
     begin
       BM := Tbitmap.Create;
       BM.Assign(IOut.Picture);
-      UFileConvert.SaveToFile(
+      UBitMapFunctions.SaveToFile(
         BM,
         SPD.FileName);
       BM.Free;
