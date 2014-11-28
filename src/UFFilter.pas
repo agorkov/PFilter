@@ -27,7 +27,7 @@ type
     GBLog: TGroupBox;
     BLog: TButton;
     LELogC: TLabeledEdit;
-    BHistogramEqualization: TButton;
+    BHistogramEqualizationRGB: TButton;
     SPD: TSaveDialog;
     BConvertToGrayscale: TButton;
     PCOperations: TPageControl;
@@ -58,6 +58,7 @@ type
     Label2: TLabel;
     Label3: TLabel;
     TBThresoldUp: TTrackBar;
+    BHistogramEqualizationIntensity: TButton;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -72,7 +73,7 @@ type
       var Resize: Boolean);
     procedure BLogClick(Sender: TObject);
     procedure BGammaClick(Sender: TObject);
-    procedure BHistogramEqualizationClick(Sender: TObject);
+    procedure BHistogramEqualizationRGBClick(Sender: TObject);
     procedure IOutMouseDown(
       Sender: TObject;
       Button: TMouseButton;
@@ -89,6 +90,7 @@ type
     procedure BConvertToBinaryClick(Sender: TObject);
     procedure TBThresoldUpChange(Sender: TObject);
     procedure TBThresoldDownChange(Sender: TObject);
+    procedure BHistogramEqualizationIntensityClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -439,7 +441,20 @@ begin
   GS.FreeGrayscaleImage;
 end;
 
-procedure TFFilter.BHistogramEqualizationClick(Sender: TObject);
+procedure TFFilter.BHistogramEqualizationIntensityClick(Sender: TObject);
+var
+  RGB: TCColorImage;
+  BM: Tbitmap;
+begin
+  RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
+  RGB.HistogramEqualization(ccIntensity);
+  BM := RGB.SaveToBitMap;
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  RGB.FreeColorImage;
+end;
+
+procedure TFFilter.BHistogramEqualizationRGBClick(Sender: TObject);
 var
   RGB: TCColorImage;
   BM: Tbitmap;

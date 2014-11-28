@@ -469,14 +469,23 @@ object FFilter: TFFilter
         Center = True
         Stretch = True
       end
-      object BHistogramEqualization: TButton
+      object BHistogramEqualizationRGB: TButton
         Left = 3
         Top = 12
-        Width = 317
+        Width = 150
         Height = 25
-        Caption = #1069#1082#1074#1072#1083#1080#1079#1072#1094#1080#1103' '#1075#1080#1089#1090#1086#1075#1088#1072#1084#1084#1099
+        Caption = #1069#1082#1074#1072#1083#1080#1079#1072#1094#1080#1103' RGB'
         TabOrder = 0
-        OnClick = BHistogramEqualizationClick
+        OnClick = BHistogramEqualizationRGBClick
+      end
+      object BHistogramEqualizationIntensity: TButton
+        Left = 168
+        Top = 12
+        Width = 152
+        Height = 25
+        Caption = #1069#1082#1074#1072#1083#1080#1079#1072#1094#1080#1103' Intensity'
+        TabOrder = 1
+        OnClick = BHistogramEqualizationIntensityClick
       end
     end
   end
