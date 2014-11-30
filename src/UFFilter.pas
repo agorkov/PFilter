@@ -55,10 +55,10 @@ type
     BConvertToBinary: TButton;
     Label1: TLabel;
     TBThresoldDown: TTrackBar;
-    Label2: TLabel;
-    Label3: TLabel;
     TBThresoldUp: TTrackBar;
     BHistogramEqualizationIntensity: TButton;
+    Label2: TLabel;
+    Label3: TLabel;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);

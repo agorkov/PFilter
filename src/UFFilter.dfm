@@ -311,31 +311,33 @@ object FFilter: TFFilter
         Left = 7
         Top = 254
         Width = 306
-        Height = 199
+        Height = 216
         Caption = #1041#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103
         TabOrder = 4
         object PCBinarizatoin: TPageControl
-          Left = 11
+          Left = 3
           Top = 20
-          Width = 289
-          Height = 113
+          Width = 300
+          Height = 131
           ActivePage = TSThresoldBinarization
           MultiLine = True
           TabOrder = 0
           TabPosition = tpBottom
           object TSThresoldBinarization: TTabSheet
             Caption = #1055#1086#1088#1086#1075#1086#1074#1072#1103' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103
+            ExplicitWidth = 281
+            ExplicitHeight = 69
             object LThresoldBinarization: TLabel
               Left = 3
-              Top = 10
+              Top = 18
               Width = 102
               Height = 13
               Caption = #1055#1086#1088#1086#1075' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1080':'
             end
             object TBBinarizationThresold: TTrackBar
               Left = 3
-              Top = 29
-              Width = 275
+              Top = 37
+              Width = 286
               Height = 23
               Max = 100
               Position = 50
@@ -345,6 +347,8 @@ object FFilter: TFFilter
           object TSBernsenBinarization: TTabSheet
             Caption = #1041#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103' '#1041#1077#1088#1085#1089#1077#1085#1072
             ImageIndex = 1
+            ExplicitWidth = 281
+            ExplicitHeight = 69
             object Label1: TLabel
               Left = 80
               Top = 10
@@ -386,24 +390,26 @@ object FFilter: TFFilter
           object TSThresoldIntervalBinarization: TTabSheet
             Caption = #1055#1086#1088#1086#1075#1086#1074#1072#1103' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103' '#1087#1086' '#1080#1085#1090#1077#1088#1074#1072#1083#1091
             ImageIndex = 2
+            ExplicitWidth = 281
+            ExplicitHeight = 69
             object Label2: TLabel
               Left = 3
-              Top = 7
-              Width = 75
+              Top = 3
+              Width = 40
               Height = 13
-              Caption = #1053#1080#1078#1085#1080#1081' '#1087#1086#1088#1086#1075':'
+              Caption = #1055#1086#1088#1086#1075'1:'
             end
             object Label3: TLabel
-              Left = 160
-              Top = 7
-              Width = 78
+              Left = 3
+              Top = 47
+              Width = 43
               Height = 13
-              Caption = #1042#1077#1088#1093#1085#1080#1081' '#1087#1086#1088#1086#1075':'
+              Caption = #1055#1086#1088#1086#1075' 2:'
             end
             object TBThresoldDown: TTrackBar
               Left = 3
-              Top = 26
-              Width = 118
+              Top = 18
+              Width = 286
               Height = 23
               Max = 100
               Position = 30
@@ -411,9 +417,9 @@ object FFilter: TFFilter
               OnChange = TBThresoldDownChange
             end
             object TBThresoldUp: TTrackBar
-              Left = 160
-              Top = 26
-              Width = 118
+              Left = 3
+              Top = 61
+              Width = 286
               Height = 23
               Max = 100
               Position = 50
@@ -423,17 +429,17 @@ object FFilter: TFFilter
           end
         end
         object CBInvertResult: TCheckBox
-          Left = 11
-          Top = 139
+          Left = 3
+          Top = 157
           Width = 289
           Height = 17
           Caption = #1048#1085#1074#1077#1088#1090#1080#1088#1086#1074#1072#1090#1100' '#1088#1077#1079#1091#1083#1100#1090#1072#1090
           TabOrder = 1
         end
         object BConvertToBinary: TButton
-          Left = 11
-          Top = 157
-          Width = 289
+          Left = 3
+          Top = 180
+          Width = 300
           Height = 25
           Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100' '#1074' '#1073#1080#1085#1072#1088#1085#1086#1077
           TabOrder = 2
