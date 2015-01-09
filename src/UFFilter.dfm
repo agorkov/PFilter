@@ -200,9 +200,9 @@ object FFilter: TFFilter
         Caption = #1051#1080#1085#1077#1081#1085#1072#1103' '#1082#1086#1088#1088#1077#1082#1094#1080#1103':'
         TabOrder = 0
         object BLinear: TButton
-          Left = 16
+          Left = 3
           Top = 59
-          Width = 104
+          Width = 123
           Height = 25
           Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100
           TabOrder = 0
@@ -239,9 +239,9 @@ object FFilter: TFFilter
         Caption = #1051#1086#1075'. '#1082#1086#1088#1088#1077#1082#1094#1080#1103':'
         TabOrder = 1
         object BLog: TButton
-          Left = 16
+          Left = 3
           Top = 59
-          Width = 104
+          Width = 123
           Height = 25
           Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100
           TabOrder = 0
@@ -262,21 +262,21 @@ object FFilter: TFFilter
       object GBGamma: TGroupBox
         Left = 19
         Top = 118
-        Width = 286
+        Width = 126
         Height = 99
-        Caption = #1043#1072#1084#1084#1072' '#1082#1086#1088#1088#1077#1082#1094#1080#1103
+        Caption = #1043#1072#1084#1084#1072' '#1082#1086#1088#1088#1077#1082#1094#1080#1103':'
         TabOrder = 2
         object BGamma: TButton
-          Left = 104
+          Left = 3
           Top = 59
-          Width = 104
+          Width = 120
           Height = 25
           Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100
           TabOrder = 0
           OnClick = BGammaClick
         end
         object LEGammaC: TLabeledEdit
-          Left = 104
+          Left = 16
           Top = 32
           Width = 33
           Height = 21
@@ -287,7 +287,7 @@ object FFilter: TFFilter
           Text = '1'
         end
         object LEGammaGamma: TLabeledEdit
-          Left = 159
+          Left = 71
           Top = 32
           Width = 33
           Height = 21
@@ -325,8 +325,6 @@ object FFilter: TFFilter
           TabPosition = tpBottom
           object TSThresoldBinarization: TTabSheet
             Caption = #1055#1086#1088#1086#1075#1086#1074#1072#1103' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103
-            ExplicitWidth = 281
-            ExplicitHeight = 69
             object LThresoldBinarization: TLabel
               Left = 3
               Top = 18
@@ -347,8 +345,6 @@ object FFilter: TFFilter
           object TSBernsenBinarization: TTabSheet
             Caption = #1041#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103' '#1041#1077#1088#1085#1089#1077#1085#1072
             ImageIndex = 1
-            ExplicitWidth = 281
-            ExplicitHeight = 69
             object Label1: TLabel
               Left = 80
               Top = 10
@@ -390,8 +386,6 @@ object FFilter: TFFilter
           object TSThresoldIntervalBinarization: TTabSheet
             Caption = #1055#1086#1088#1086#1075#1086#1074#1072#1103' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103' '#1087#1086' '#1080#1085#1090#1077#1088#1074#1072#1083#1091
             ImageIndex = 2
-            ExplicitWidth = 281
-            ExplicitHeight = 69
             object Label2: TLabel
               Left = 3
               Top = 3
@@ -444,6 +438,34 @@ object FFilter: TFFilter
           Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100' '#1074' '#1073#1080#1085#1072#1088#1085#1086#1077
           TabOrder = 2
           OnClick = BConvertToBinaryClick
+        end
+      end
+      object GBContrast: TGroupBox
+        Left = 178
+        Top = 118
+        Width = 129
+        Height = 99
+        Caption = #1050#1086#1085#1090#1088#1072#1089#1090#1085#1086#1089#1090#1100':'
+        TabOrder = 5
+        object BContrast: TButton
+          Left = 3
+          Top = 59
+          Width = 123
+          Height = 25
+          Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100
+          TabOrder = 0
+          OnClick = BContrastClick
+        end
+        object LEContrast: TLabeledEdit
+          Left = 3
+          Top = 32
+          Width = 123
+          Height = 21
+          EditLabel.Width = 124
+          EditLabel.Height = 13
+          EditLabel.Caption = #1050#1086#1101#1092#1092#1080#1094#1080#1077#1085#1090' '#1091#1089#1080#1083#1077#1085#1080#1103':'
+          TabOrder = 1
+          Text = '2'
         end
       end
     end

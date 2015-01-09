@@ -59,6 +59,9 @@ type
     BHistogramEqualizationIntensity: TButton;
     Label2: TLabel;
     Label3: TLabel;
+    GBContrast: TGroupBox;
+    BContrast: TButton;
+    LEContrast: TLabeledEdit;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -91,6 +94,8 @@ type
     procedure TBThresoldUpChange(Sender: TObject);
     procedure TBThresoldDownChange(Sender: TObject);
     procedure BHistogramEqualizationIntensityClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure BContrastClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -376,6 +381,19 @@ begin
   RGB.FreeColorImage;
 end;
 
+procedure TFFilter.Button1Click(Sender: TObject);
+var
+  GS: TCGrayscaleImage;
+  BM: Tbitmap;
+begin
+  GS := TCGrayscaleImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
+  GS.EditContrast(2);
+  BM := GS.SaveToBitMap;
+  GS.FreeGrayscaleImage;
+  IOut.Picture.Assign(BM);
+  BM.Free;
+end;
+
 procedure TFFilter.BGammaClick(Sender: TObject);
 var
   c, gamma: double;
@@ -397,6 +415,29 @@ begin
     ccBlue,
     c,
     gamma);
+  BM := RGB.SaveToBitMap;
+  IOut.Picture.Assign(BM);
+  BM.Free;
+  RGB.FreeColorImage;
+end;
+
+procedure TFFilter.BContrastClick(Sender: TObject);
+var
+  k: double;
+  RGB: TCColorImage;
+  BM: Tbitmap;
+begin
+  k := strtofloat(LEContrast.Text);
+  RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
+  RGB.EditContrast(
+    ccRed,
+    k);
+  RGB.EditContrast(
+    ccGreen,
+    k);
+  RGB.EditContrast(
+    ccBlue,
+    k);
   BM := RGB.SaveToBitMap;
   IOut.Picture.Assign(BM);
   BM.Free;
