@@ -192,6 +192,10 @@ object FFilter: TFFilter
     object TSGradation: TTabSheet
       Caption = #1043#1088#1072#1076#1072#1094#1080#1086#1085#1085#1099#1077' '#1087#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1085#1080#1103
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GBLinear: TGroupBox
         Left = 18
         Top = 13
@@ -325,6 +329,10 @@ object FFilter: TFFilter
           TabPosition = tpBottom
           object TSThresoldBinarization: TTabSheet
             Caption = #1055#1086#1088#1086#1075#1086#1074#1072#1103' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object LThresoldBinarization: TLabel
               Left = 3
               Top = 18
@@ -345,6 +353,10 @@ object FFilter: TFFilter
           object TSBernsenBinarization: TTabSheet
             Caption = #1041#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103' '#1041#1077#1088#1085#1089#1077#1085#1072
             ImageIndex = 1
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object Label1: TLabel
               Left = 80
               Top = 10
@@ -386,6 +398,10 @@ object FFilter: TFFilter
           object TSThresoldIntervalBinarization: TTabSheet
             Caption = #1055#1086#1088#1086#1075#1086#1074#1072#1103' '#1073#1080#1085#1072#1088#1080#1079#1072#1094#1080#1103' '#1087#1086' '#1080#1085#1090#1077#1088#1074#1072#1083#1091
             ImageIndex = 2
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object Label2: TLabel
               Left = 3
               Top = 3
@@ -473,6 +489,10 @@ object FFilter: TFFilter
       Caption = #1043#1080#1089#1090#1086#1075#1088#1072#1084#1084#1099
       ImageIndex = 2
       OnShow = TSHistogramShow
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object IHistR: TImage
         Left = 3
         Top = 54
