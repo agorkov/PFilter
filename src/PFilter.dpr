@@ -1,7 +1,7 @@
 program PFilter;
 
 uses
-  Vcl.Forms,
+  Forms,
   UFFilter in 'UFFilter.pas' {FFilter},
   UColorImages in '..\..\ImgSharedUnits\src\UColorImages.pas',
   UBitMapFunctions in '..\..\ImgSharedUnits\src\UBitMapFunctions.pas',
