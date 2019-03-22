@@ -38,14 +38,15 @@ object FFilter: TFFilter
   OldCreateOrder = False
   Position = poScreenCenter
   OnActivate = FormActivate
-  OnCanResize = FormCanResize
+  OnResize = FormResize
   PixelsPerInch = 96
   TextHeight = 13
   object IOut: TImage
-    Left = 848
-    Top = 8
+    Left = 859
+    Top = 0
     Width = 497
-    Height = 497
+    Height = 516
+    Align = alRight
     Center = True
     ParentShowHint = False
     Proportional = True
@@ -53,27 +54,40 @@ object FFilter: TFFilter
     Stretch = True
     OnDblClick = IOutDblClick
     OnMouseDown = IOutMouseDown
+    ExplicitLeft = 848
+    ExplicitTop = 8
+    ExplicitHeight = 497
   end
   object IIn: TImage
-    Left = 8
-    Top = 8
-    Width = 497
-    Height = 497
+    Left = 0
+    Top = 0
+    Width = 528
+    Height = 516
+    Align = alClient
     Center = True
     Proportional = True
     Stretch = True
     OnDblClick = IInDblClick
     OnMouseDown = IInMouseDown
+    ExplicitLeft = 8
+    ExplicitTop = 8
+    ExplicitWidth = 497
+    ExplicitHeight = 497
   end
   object PCOperations: TPageControl
-    Left = 511
-    Top = 8
+    Left = 528
+    Top = 0
     Width = 331
-    Height = 501
-    ActivePage = TSGradation
+    Height = 516
+    ActivePage = TSFilter
+    Align = alRight
     TabOrder = 0
+    ExplicitLeft = 511
+    ExplicitTop = 8
+    ExplicitHeight = 501
     object TSFilter: TTabSheet
       Caption = #1060#1080#1083#1100#1090#1088#1099
+      ExplicitHeight = 473
       object GBFilterParams: TGroupBox
         Left = 16
         Top = 15
@@ -192,6 +206,7 @@ object FFilter: TFFilter
     object TSGradation: TTabSheet
       Caption = #1043#1088#1072#1076#1072#1094#1080#1086#1085#1085#1099#1077' '#1087#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1085#1080#1103
       ImageIndex = 1
+      ExplicitHeight = 473
       object GBLinear: TGroupBox
         Left = 18
         Top = 13
@@ -493,6 +508,7 @@ object FFilter: TFFilter
       Caption = #1043#1080#1089#1090#1086#1075#1088#1072#1084#1084#1099
       ImageIndex = 2
       OnShow = TSHistogramShow
+      ExplicitHeight = 473
       object IHistR: TImage
         Left = 3
         Top = 54

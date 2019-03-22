@@ -84,7 +84,6 @@ type
     procedure LEFilterMChange(Sender: TObject);
     procedure RGFilterSelectClick(Sender: TObject);
     procedure BLinearClick(Sender: TObject);
-    procedure FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer; var Resize: Boolean);
     procedure BLogClick(Sender: TObject);
     procedure BGammaClick(Sender: TObject);
     procedure BHistogramEqualizationRGBClick(Sender: TObject);
@@ -99,6 +98,7 @@ type
     procedure BHistogramEqualizationIntensityClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure BContrastClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
   public
@@ -399,9 +399,9 @@ begin
   IOut.Canvas.Rectangle(1, 1, IOut.Width, IOut.Height);
 end;
 
-procedure TFFilter.FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer; var Resize: Boolean);
+procedure TFFilter.FormResize(Sender: TObject);
 begin
-  Resize := False;
+IOut.Width:=(FFilter.Width-PCOperations.Width) div 2;
 end;
 
 procedure TFFilter.IInDblClick(Sender: TObject);
