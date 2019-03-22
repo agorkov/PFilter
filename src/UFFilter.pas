@@ -3,7 +3,19 @@ unit UFFilter;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, ExtDlgs, ExtCtrls, StdCtrls, ComCtrls;
+  Windows,
+  Messages,
+  SysUtils,
+  Variants,
+  Classes,
+  Graphics,
+  Controls,
+  Forms,
+  Dialogs,
+  ExtDlgs,
+  ExtCtrls,
+  StdCtrls,
+  ComCtrls;
 
 type
   TFFilter = class(TForm)
@@ -62,6 +74,8 @@ type
     GBContrast: TGroupBox;
     BContrast: TButton;
     LEContrast: TLabeledEdit;
+    TSDithering: TTabSheet;
+    RGDitheringMethod: TRadioGroup;
     procedure FormActivate(Sender: TObject);
     procedure IInDblClick(Sender: TObject);
     procedure BFilterClick(Sender: TObject);
@@ -99,14 +113,21 @@ implementation
 {$R *.dfm}
 
 uses
-  Math, JPEG, UColorImages, UGrayscaleImages, UPixelConvert, UBitMapFunctions, UBinaryImages, ShellAPI;
+  Math,
+  jpeg,
+  UColorImages,
+  UGrayscaleImages,
+  UPixelConvert,
+  UBitMapFunctions,
+  UBinaryImages,
+  ShellAPI;
 
 var
-  FilterH, FilterW: byte;
+  FilterH, FilterW: Byte;
 
 function GetWinPath(const Macro: string): string;
 var
-  P: array [0 .. 4096] of Char;
+  P: array[0..4096] of Char;
 begin
   Result := Macro;
   ExpandEnvironmentStrings(PChar(Result), P, SizeOf(P));
@@ -116,7 +137,7 @@ end;
 procedure TFFilter.GetHistogram;
 var
   RGBI: TCColorImage;
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
   RGBI := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   BM := RGBI.Histogram(ccRed);
@@ -134,7 +155,7 @@ end;
 procedure TFFilter.BFilterClick(Sender: TObject);
 var
   RGB: TCColorImage;
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
 
@@ -221,12 +242,12 @@ end;
 procedure TFFilter.BLinearClick(Sender: TObject);
 var
   RGB: TCColorImage;
-  BM: Tbitmap;
-  k, B: double;
+  BM: TBitmap;
+  k, B: Double;
 begin
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
-  k := strtofloat(LELinearK.Text);
-  B := strtofloat(LELinearb.Text);
+  k := StrToFloat(LELinearK.Text);
+  B := StrToFloat(LELinearb.Text);
   RGB.LinearTransform(ccRed, k, B);
   RGB.LinearTransform(ccGreen, k, B);
   RGB.LinearTransform(ccBlue, k, B);
@@ -238,12 +259,12 @@ end;
 
 procedure TFFilter.BLogClick(Sender: TObject);
 var
-  c: double;
+  c: Double;
   RGB: TCColorImage;
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
-  c := strtofloat(LELogC.Text);
+  c := StrToFloat(LELogC.Text);
   RGB.LogTransform(ccRed, c);
   RGB.LogTransform(ccGreen, c);
   RGB.LogTransform(ccBlue, c);
@@ -256,7 +277,7 @@ end;
 procedure TFFilter.Button1Click(Sender: TObject);
 var
   GS: TCGrayscaleImage;
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
   GS := TCGrayscaleImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   GS.EditContrast(2);
@@ -268,13 +289,13 @@ end;
 
 procedure TFFilter.BGammaClick(Sender: TObject);
 var
-  c, gamma: double;
+  c, gamma: Double;
   RGB: TCColorImage;
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
-  c := strtofloat(LEGammaC.Text);
-  gamma := strtofloat(LEGammaGamma.Text);
+  c := StrToFloat(LEGammaC.Text);
+  gamma := StrToFloat(LEGammaGamma.Text);
   RGB.GammaTransform(ccRed, c, gamma);
   RGB.GammaTransform(ccGreen, c, gamma);
   RGB.GammaTransform(ccBlue, c, gamma);
@@ -286,11 +307,11 @@ end;
 
 procedure TFFilter.BContrastClick(Sender: TObject);
 var
-  k: double;
+  k: Double;
   RGB: TCColorImage;
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
-  k := strtofloat(LEContrast.Text);
+  k := StrToFloat(LEContrast.Text);
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   RGB.EditContrast(ccRed, k);
   RGB.EditContrast(ccGreen, k);
@@ -305,7 +326,7 @@ procedure TFFilter.BConvertToBinaryClick(Sender: TObject);
 var
   GS: TCGrayscaleImage;
   BI: TCBinaryImage;
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
   GS := TCGrayscaleImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   case PCBinarizatoin.TabIndex of
@@ -315,6 +336,11 @@ begin
       BI := GS.BernsenBinarization(StrToInt(LEBersenR.Text), TBBersenContrastThresold.Position / 100);
     2:
       BI := GS.ThresoldInervalBinarization(TBThresoldDown.Position / 100, TBThresoldUp.Position / 100);
+    3:
+      case RGDitheringMethod.ItemIndex of
+        0:
+          BI := GS.FloydSteinbergDithering;
+      end;
   else
     BI := TCBinaryImage.Create;
   end;
@@ -330,7 +356,7 @@ end;
 procedure TFFilter.BConvertToGrayscaleClick(Sender: TObject);
 var
   GS: TCGrayscaleImage;
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
   GS := TCGrayscaleImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   BM := GS.SaveToBitMap;
@@ -342,7 +368,7 @@ end;
 procedure TFFilter.BHistogramEqualizationIntensityClick(Sender: TObject);
 var
   RGB: TCColorImage;
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   RGB.HistogramEqualization(ccIntensity);
@@ -355,7 +381,7 @@ end;
 procedure TFFilter.BHistogramEqualizationRGBClick(Sender: TObject);
 var
   RGB: TCColorImage;
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
   RGB := TCColorImage.CreateandLoadFromBitMap(IIn.Picture.Bitmap);
   RGB.HistogramEqualization(ccRed);
@@ -375,12 +401,12 @@ end;
 
 procedure TFFilter.FormCanResize(Sender: TObject; var NewWidth, NewHeight: Integer; var Resize: Boolean);
 begin
-  Resize := false;
+  Resize := False;
 end;
 
 procedure TFFilter.IInDblClick(Sender: TObject);
 var
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
   OPD.Filter := 'All supported|' + UBitMapFunctions.SUPPORTED_FORMATS;
   if OPD.Execute then
@@ -399,14 +425,14 @@ end;
 procedure TFFilter.IInMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   tmpFileName: string;
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
   if ssShift in Shift then
   begin
     SPD.Filter := 'All supported|' + UBitMapFunctions.SUPPORTED_FORMATS;
     if SPD.Execute then
     begin
-      BM := Tbitmap.Create;
+      BM := TBitmap.Create;
       BM.Assign(IIn.Picture);
       UBitMapFunctions.SaveToFile(BM, SPD.FileName);
       BM.Free;
@@ -416,7 +442,7 @@ begin
   begin
     tmpFileName := GetWinPath('%Temp%') + '\' + 'Filter_tmp.bmp';
     IIn.Picture.SaveToFile(tmpFileName);
-    ShellExecute(handle, 'open', PWideChar(tmpFileName), nil, nil, SW_SHOWNORMAL);
+    ShellExecute(Handle, 'open', PWideChar(tmpFileName), nil, nil, SW_SHOWNORMAL);
   end;
 end;
 
@@ -430,14 +456,14 @@ end;
 procedure TFFilter.IOutMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   tmpFileName: string;
-  BM: Tbitmap;
+  BM: TBitmap;
 begin
   if ssShift in Shift then
   begin
     SPD.Filter := 'All supported|' + UBitMapFunctions.SUPPORTED_FORMATS;
     if SPD.Execute then
     begin
-      BM := Tbitmap.Create;
+      BM := TBitmap.Create;
       BM.Assign(IOut.Picture);
       UBitMapFunctions.SaveToFile(BM, SPD.FileName);
       BM.Free;
@@ -447,19 +473,19 @@ begin
   begin
     tmpFileName := GetWinPath('%Temp%') + '\' + 'Filter_tmp.bmp';
     IOut.Picture.SaveToFile(tmpFileName);
-    ShellExecute(handle, 'open', PWideChar(tmpFileName), nil, nil, SW_SHOWNORMAL);
+    ShellExecute(Handle, 'open', PWideChar(tmpFileName), nil, nil, SW_SHOWNORMAL);
   end;
 end;
 
 procedure TFFilter.LEFilterMChange(Sender: TObject);
 var
-  FilterN, FilterM: word;
+  FilterN, FilterM: Word;
 begin
   FilterN := StrToInt(LEFilterN.Text);
   FilterM := StrToInt(LEFilterM.Text);
   FilterN := 2 * FilterN + 1;
   FilterM := 2 * FilterM + 1;
-  LEFilterD.Text := inttostr(FilterN * FilterM div 3);
+  LEFilterD.Text := IntToStr(FilterN * FilterM div 3);
   UDFilterD.Max := (FilterN * FilterM - 1) div 2;
 end;
 
@@ -467,31 +493,31 @@ procedure TFFilter.LEFilterNChange(Sender: TObject);
 begin
   FilterH := StrToInt(LEFilterN.Text);
   FilterW := StrToInt(LEFilterM.Text);
-  LEFilterD.Text := inttostr(((2 * FilterH + 1) * (2 * FilterW + 1)) div 3);
+  LEFilterD.Text := IntToStr(((2 * FilterH + 1) * (2 * FilterW + 1)) div 3);
   UDFilterD.Max := ((2 * FilterH + 1) * (2 * FilterW + 1) - 1) div 2;
 end;
 
 procedure TFFilter.RGFilterSelectClick(Sender: TObject);
 begin
-  LEFilterN.Visible := true;
-  UDFilterN.Visible := true;
-  LEFilterM.Visible := true;
-  UDFilterM.Visible := true;
-  LEFilterD.Visible := false;
-  UDFilterD.Visible := false;
-  CBAddToOriginal.Visible := false;
+  LEFilterN.Visible := True;
+  UDFilterN.Visible := True;
+  LEFilterM.Visible := True;
+  UDFilterM.Visible := True;
+  LEFilterD.Visible := False;
+  UDFilterD.Visible := False;
+  CBAddToOriginal.Visible := False;
   if RGFilterSelect.ItemIndex = 7 then
   begin
-    LEFilterD.Visible := true;
-    UDFilterD.Visible := true;
+    LEFilterD.Visible := True;
+    UDFilterD.Visible := True;
   end;
   if RGFilterSelect.ItemIndex > 7 then
   begin
-    CBAddToOriginal.Visible := true;
-    LEFilterN.Visible := false;
-    UDFilterN.Visible := false;
-    LEFilterM.Visible := false;
-    UDFilterM.Visible := false;
+    CBAddToOriginal.Visible := True;
+    LEFilterN.Visible := False;
+    UDFilterN.Visible := False;
+    LEFilterM.Visible := False;
+    UDFilterM.Visible := False;
   end;
 end;
 
@@ -513,4 +539,5 @@ begin
 end;
 
 end.
+
 

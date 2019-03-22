@@ -70,7 +70,7 @@ object FFilter: TFFilter
     Top = 8
     Width = 331
     Height = 501
-    ActivePage = TSFilter
+    ActivePage = TSGradation
     TabOrder = 0
     object TSFilter: TTabSheet
       Caption = #1060#1080#1083#1100#1090#1088#1099
@@ -419,6 +419,26 @@ object FFilter: TFFilter
               Position = 50
               TabOrder = 1
               OnChange = TBThresoldUpChange
+            end
+          end
+          object TSDithering: TTabSheet
+            Caption = #1044#1080#1079#1077#1088#1080#1085#1075
+            ImageIndex = 3
+            object RGDitheringMethod: TRadioGroup
+              Left = 0
+              Top = 0
+              Width = 292
+              Height = 87
+              Align = alClient
+              Caption = #1040#1083#1075#1086#1088#1080#1090#1084' '#1088#1072#1089#1089#1077#1080#1074#1072#1085#1080#1103' '#1086#1096#1080#1073#1082#1080
+              ItemIndex = 0
+              Items.Strings = (
+                #1060#1083#1086#1081#1076#1072'-'#1057#1090#1077#1081#1085#1073#1077#1088#1075#1072)
+              TabOrder = 0
+              ExplicitLeft = 54
+              ExplicitTop = -9
+              ExplicitWidth = 185
+              ExplicitHeight = 105
             end
           end
         end
